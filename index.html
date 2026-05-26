@@ -1,67 +1,806 @@
-<!doctype html>
-<html lang="zh-Hant" data-theme="light">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#01696f" />
-  <title>Cube 回饋小工具</title>
-  <style>
-    :root, [data-theme="light"] { --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem); --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem); --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem); --space-2: .5rem; --space-3: .75rem; --space-4: 1rem; --space-5: 1.25rem; --radius-lg: .75rem; --radius-xl: 1rem; --radius-full: 9999px; --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #fbfbf9; --color-border: #d4d1ca; --color-text: #28251d; --color-text-muted: #6e6b64; --color-text-faint: #9a978f; --color-text-inverse: #f9f8f4; --color-primary: #01696f; --color-primary-hover: #0c4e54; --color-primary-highlight: #cedcd8; --color-success: #437a22; --color-warning: #964219; --color-blue: #006494; --color-pink: #a12c7b; --shadow-md: 0 8px 24px rgba(0,0,0,.08); --font-body: "Inter", "Noto Sans TC", sans-serif; }
-    [data-theme="dark"] { --color-bg: #171614; --color-surface: #1c1b19; --color-surface-2: #201f1d; --color-border: #393836; --color-text: #e2dfda; --color-text-muted: #a39f97; --color-text-faint: #77736d; --color-text-inverse: #171614; --color-primary: #4f98a3; --color-primary-hover: #68aab4; --color-primary-highlight: #233336; --color-success: #79b55c; --color-warning: #c88054; --color-blue: #6aa8d8; --color-pink: #d163a7; --shadow-md: 0 8px 24px rgba(0,0,0,.28); }
-    * { box-sizing: border-box; } body { margin:0; min-height:100dvh; font-family:var(--font-body); font-size:var(--text-base); line-height:1.6; color:var(--color-text); background:linear-gradient(180deg,var(--color-bg),var(--color-surface)); } button, input, select { font:inherit; } .app { max-width:840px; margin:0 auto; padding:var(--space-4); } .topbar { display:flex; justify-content:space-between; align-items:center; gap:var(--space-3); margin-bottom:var(--space-4); } .logo { display:inline-flex; align-items:center; gap:var(--space-3); font-weight:700; } .logo-mark { width:38px; height:38px; border-radius:12px; background:var(--color-primary); color:#fff; display:grid; place-items:center; } .theme-toggle { min-width:44px; min-height:44px; border:1px solid var(--color-border); border-radius:var(--radius-full); background:var(--color-surface-2); color:var(--color-text); } .panel { background:var(--color-surface); border:1px solid color-mix(in srgb, var(--color-text) 12%, transparent); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); padding:var(--space-5); } h1 { margin:0 0 var(--space-2); line-height:1.15; font-size:var(--text-xl); } h2, p { margin:0; } p { color:var(--color-text-muted); } .search-row, .config-row { display:grid; gap:var(--space-3); margin-top:var(--space-4); } .search-row { grid-template-columns:1fr auto; } .config-row { grid-template-columns:1fr 1fr 1fr; } .field, .select, .primary-btn, .ghost-btn, .chip { min-height:48px; border-radius:var(--radius-lg); } .field, .select { border:1px solid var(--color-border); padding:0 var(--space-4); background:var(--color-surface-2); color:var(--color-text); width:100%; } .primary-btn, .ghost-btn, .chip { border:0; cursor:pointer; } .primary-btn { padding:0 var(--space-5); background:var(--color-primary); color:var(--color-text-inverse); font-weight:700; } .ghost-btn { padding:0 var(--space-4); background:transparent; border:1px solid var(--color-border); color:var(--color-text); } .section-title { margin:var(--space-5) 0 var(--space-3); font-size:var(--text-sm); color:var(--color-text-muted); font-weight:700; } .chips { display:flex; flex-wrap:wrap; gap:var(--space-2); } .chip { padding:0 var(--space-4); background:var(--color-primary-highlight); color:var(--color-primary); font-weight:700; } .chip.active, .chip:hover { background:var(--color-primary); color:var(--color-text-inverse); } .chip.secondary { background:color-mix(in srgb, var(--color-blue) 14%, transparent); color:var(--color-blue); } .chip.secondary.active, .chip.secondary:hover { background:var(--color-blue); color:#fff; } .chip.pink { background:color-mix(in srgb, var(--color-pink) 15%, transparent); color:var(--color-pink); } .chip.pink.active, .chip.pink:hover { background:var(--color-pink); color:#fff; } .result { margin-top:var(--space-5); padding:var(--space-4); border-radius:var(--radius-xl); background:var(--color-surface-2); border:1px solid var(--color-border); display:grid; gap:var(--space-3); } .badge { display:inline-flex; width:fit-content; align-items:center; gap:.4rem; padding:.45rem .7rem; border-radius:var(--radius-full); font-size:var(--text-xs); font-weight:700; } .badge.good { background:color-mix(in srgb, var(--color-success) 18%, transparent); color:var(--color-success); } .badge.warn { background:color-mix(in srgb, var(--color-warning) 18%, transparent); color:var(--color-warning); } .kv { display:grid; gap:var(--space-2); } .kv-item { display:grid; grid-template-columns:104px 1fr; gap:var(--space-3); align-items:start; font-size:var(--text-sm); } .kv-item strong { color:var(--color-text); } .note { margin-top:var(--space-3); padding-top:var(--space-3); border-top:1px solid var(--color-border); font-size:var(--text-xs); color:var(--color-text-faint); } .footer-actions { margin-top:var(--space-4); display:flex; flex-wrap:wrap; gap:var(--space-2); } @media (max-width:700px){ .config-row{grid-template-columns:1fr;} } @media (max-width:560px){ .search-row{grid-template-columns:1fr;} .kv-item{grid-template-columns:1fr;gap:.15rem;} }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>刷卡參謀</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=400;500;600;700&family=DM+Mono:wght=400;500&display=swap');
+:root {
+  --bg:#f2f1ee;--surface:#fff;--surface2:#f7f6f3;--border:#e3e1db;--border2:#ccc9c1;
+  --text:#18170f;--muted:#888279;--light:#b8b4ab;
+  --blue:#2050d0;--blue-bg:#eef2fd;--blue-light:#dce6fc;
+  --green:#167040;--green-bg:#e6f4ec;
+  --amber:#a07010;--amber-bg:#fdf5e0;
+  --red:#b83030;--red-bg:#fde8e8;
+  --radius:10px;--r-sm:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.65;min-height:100vh}
+a{color:var(--blue);text-decoration:none}
+
+/* ── HEADER ── */
+.hd{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;position:sticky;top:0;z-index:200}
+.hd-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:10px;height:48px}
+.hd-logo{width:30px;height:30px;background:var(--text);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hd-logo span{color:#fff;font-size:13px;font-weight:700;font-family:'DM Mono',monospace}
+.hd-title{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.hd-nav{display:flex;gap:2px;margin-left:auto}
+.nav-btn{padding:5px 10px;border:none;background:none;font-family:inherit;font-size:12px;color:var(--muted);cursor:pointer;border-radius:5px;font-weight:500;transition:all .1s}
+.nav-btn.active,.nav-btn:hover{background:var(--bg);color:var(--text)}
+.nav-btn.active{font-weight:700;color:var(--text)}
+
+/* ── LAYOUT ── */
+.wrap{max-width:680px;margin:0 auto;padding:16px}
+.page{display:none}.page.active{display:block}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+
+/* ── LEVEL SELECTOR ── */
+.lv-row{display:flex;gap:7px;margin-bottom:14px}
+.lv-btn{flex:1;padding:9px 6px;border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r-sm);cursor:pointer;text-align:center;transition:all .1s;font-family:inherit;line-height:1.25}
+.lv-btn:hover{border-color:var(--border2)}
+.lv-btn.active{border-color:var(--blue);background:var(--blue-bg)}
+.lv-n{display:block;font-size:17px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text)}
+.lv-btn.active .lv-n{color:var(--blue)}
+.lv-d{font-size:11px;color:var(--muted)}
+
+/* ── QUERY CARD ── */
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.q-row{display:flex;gap:8px;margin-bottom:9px}
+input[type=text],input[type=number],select,textarea{font-family:inherit;font-size:14px;color:var(--text);background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px 11px;outline:none;transition:border-color .12s;-webkit-appearance:none;appearance:none}
+input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{border-color:var(--blue);background:#fff}
+input::placeholder,textarea::placeholder{color:var(--light)}
+input[type=number]{font-family:'DM Mono',monospace}
+.q-store{flex:1;min-width:0}
+.q-btn{padding:9px 16px;background:var(--text);color:#fff;border:none;border-radius:var(--r-sm);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .1s,transform .08s;flex-shrink:0}
+.q-btn:hover{background:#2a2a2a}
+.q-btn:active{transform:scale(.97)}
+.q-row2{display:flex;gap:8px}
+.amt-wrap{position:relative;flex:1;min-width:0}
+.amt-pfx{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-family:'DM Mono',monospace;pointer-events:none;font-size:13px}
+.amt-wrap input{padding-left:22px;width:100%}
+.sel-wrap{position:relative;flex:0 0 148px}
+.sel-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:11px}
+select{padding-right:26px;width:100%;cursor:pointer}
+
+/* ── QUICK TAGS ── */
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 0}
+.tag{padding:3px 9px;background:var(--surface);border:1px solid var(--border);border-radius:16px;font-size:12px;cursor:pointer;color:var(--muted);transition:all .1s;font-weight:500}
+.tag:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+.toggle-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font-size:12px;color:var(--muted)}
+.feature-notes{background:var(--surface);border:1px dashed var(--border2);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px}
+.feature-notes .announce-item{font-size:12px}
+
+/* ── ANNOUNCEMENT BAR ── */
+.announce{background:var(--amber-bg);border:1px solid #e8c060;border-radius:var(--r-sm);padding:8px 12px;margin-bottom:12px;font-size:12px;line-height:1.6}
+.announce-hd{font-weight:700;color:var(--amber);margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.announce-item{color:var(--text);padding:2px 0}
+.announce-item::before{content:'· '}
+
+/* ── RESULT CARDS ── */
+.r-header{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.r-title{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.r-query{font-size:13px;font-weight:600}
+.r-scene{font-size:12px;color:var(--muted)}
+
+.rc{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:9px}
+.rc.best{border-color:var(--blue)}
+.rc-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.rc-badge{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;letter-spacing:-.02em;line-height:1.1;text-align:center}
+.b-ts{background:#e6eefe;color:#1a3fb0}
+.b-ct{background:#fef4d8;color:#7a5500}
+.rc-info{flex:1;min-width:0}
+.rc-name{font-size:13px;font-weight:700;line-height:1.3}
+.rc-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.rc-best-tag{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;align-self:flex-start}
+
+.rc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.stat{background:var(--surface2);border-radius:7px;padding:8px 10px;text-align:center}
+.sv{font-size:18px;font-weight:700;font-family:'DM Mono',monospace;line-height:1.2}
+.sv.blue{color:var(--blue)}
+.sv.green{color:var(--green)}
+.sl{font-size:11px;color:var(--muted);margin-top:1px}
+
+.rc-notes{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:3px 10px;font-size:12px;color:var(--muted)}
+.rc-notes span::before{content:'· '}
+.rc-plan{margin-top:7px;padding:7px 10px;background:var(--blue-bg);border-radius:6px;font-size:12px;color:var(--blue);font-weight:500}
+.rc-plan strong{font-weight:700}
+.cap-warn{margin-top:6px;display:inline-block;padding:4px 9px;background:var(--amber-bg);border:1px solid #e8c060;border-radius:4px;font-size:11px;color:var(--amber)}
+.no-r{text-align:center;padding:30px 0;color:var(--muted);font-size:13px}
+.cat-badge{display:inline-block;padding:2px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-size:11px;color:var(--muted);margin-bottom:8px}
+
+/* ── SPLIT COMPARE ── */
+.split-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px}
+.split-title{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+.split-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.split-row label{font-size:12px;color:var(--muted);flex:0 0 70px}
+.split-row input{flex:1}
+.split-result{margin-top:8px;font-size:13px;padding:8px 10px;background:var(--surface2);border-radius:6px;line-height:1.7}
+
+/* ── MY STATUS ── */
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.st-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.st-hd{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.st-val{font-size:22px;font-weight:700;font-family:'DM Mono',monospace;line-height:1.2}
+.st-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.prog{height:6px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:var(--blue);transition:width .3s}
+.prog-fill.warn{background:var(--amber)}
+.prog-fill.full{background:var(--green)}
+.status-edit{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
+.stat-input-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.stat-input-row label{font-size:12px;color:var(--muted);flex:0 0 100px}
+.stat-input-row input{flex:1}
+.reminders{margin-top:10px}
+.rem-item{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;font-size:12px}
+.rem-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dot-blue{background:var(--blue)}
+.dot-amber{background:var(--amber)}
+.dot-green{background:var(--green)}
+
+/* ── CARD MANAGER ── */
+.cm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+.cm-head{padding:12px 14px;display:flex;align-items:center;gap:10px}
+.cm-info{flex:1}
+.cm-name{font-size:13px;font-weight:700}
+.cm-sub{font-size:11px;color:var(--muted)}
+.cm-toggle{padding:4px 10px;border:1.5px solid var(--border);border-radius:16px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;background:none;transition:all .1s}
+.cm-toggle.on{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.cm-toggle.off{border-color:var(--border2);color:var(--muted)}
+.cm-body{padding:0 14px 12px;border-top:1px solid var(--border)}
+.cm-plan-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.cm-plan-row:last-child{border-bottom:none}
+.cm-plan-name{flex:0 0 80px;font-weight:600}
+.cm-plan-stores{flex:1;color:var(--muted);font-size:11px;line-height:1.5}
+.cm-plan-rate{font-family:'DM Mono',monospace;font-weight:700;color:var(--blue);flex-shrink:0}
+
+/* ── DATA IO ── */
+.io-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.io-title{font-size:13px;font-weight:700;margin-bottom:10px}
+.io-row{display:flex;gap:8px;margin-bottom:8px}
+.btn-sm{padding:7px 14px;border-radius:var(--r-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .1s;border:1.5px solid var(--border)}
+.btn-sm.pri{background:var(--text);color:#fff;border-color:var(--text)}
+.btn-sm.sec{background:var(--surface);color:var(--text)}
+.btn-sm:hover{opacity:.85}
+.btn-sm.danger{border-color:var(--red);color:var(--red)}
+textarea.json-area{width:100%;height:180px;font-family:'DM Mono',monospace;font-size:11px;resize:vertical;border-radius:var(--r-sm)}
+
+/* ── RULE OVERVIEW ── */
+.rule-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
+.rule-table th{background:var(--surface2);padding:7px 10px;text-align:left;font-weight:600;border-bottom:1.5px solid var(--border);color:var(--muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+.rule-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.rule-table tr:last-child td{border-bottom:none}
+.rule-table td:nth-child(3),.rule-table td:nth-child(4){font-family:'DM Mono',monospace;font-weight:600;color:var(--blue)}
+.rule-table .sub{font-size:10px;color:var(--muted);display:block;margin-top:2px}
+.rule-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.rule-box-hd{padding:10px 14px;font-size:13px;font-weight:700;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;background:var(--surface2)}
+
+/* ── DIVIDER ── */
+hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:480px){
+  .rc-stats{grid-template-columns:1fr 1fr 1fr}
+  .stat:last-child{grid-column:span 2}
+  .status-grid{grid-template-columns:1fr}
+  .sel-wrap{flex:0 0 120px}
+}
+</style>
 </head>
 <body>
-  <main class="app">
-    <header class="topbar">
-      <div class="logo"><div class="logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6.5v11L12 22l8-4.5v-11L12 2Z"></path><path d="M12 22V12"></path><path d="M20 6.5 12 12 4 6.5"></path></svg></div><div><div style="font-size:var(--text-sm); color:var(--color-text-muted);">Level 可切換版</div><div>Cube 回饋小工具</div></div></div>
-      <button class="theme-toggle" data-theme-toggle>☾</button>
-    </header>
-    <section class="panel">
-      <div class="section-title">權益等級</div>
-      <div class="chips">
-        <button class="chip secondary" data-level-btn="1">Level 1</button>
-        <button class="chip secondary active" data-level-btn="2">Level 2</button>
-        <button class="chip secondary" data-level-btn="3">Level 3</button>
+
+<div class="hd">
+  <div class="hd-inner">
+    <div class="hd-logo"><span>刷</span></div>
+    <div class="hd-title">刷卡參謀</div>
+    <nav class="hd-nav">
+      <button class="nav-btn active" onclick="goPage('q')">查詢</button>
+            <button class="nav-btn" onclick="goPage('rules')">規則</button>
+      <button class="nav-btn" onclick="goPage('manage')">管理</button>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap page active" id="pg-q">
+
+  <div class="announce" id="announceBar"></div>
+
+  <div class="sec-lbl">我的等級</div>
+  <div class="lv-row" id="lvRow"></div>
+
+  <div class="q-card">
+    <div class="q-row">
+      <input type="text" class="q-store" id="storeInput" placeholder="輸入店家名稱或消費類型" autocomplete="off" oninput="handleStoreInput()" onkeydown="if(event.key==='Enter')doQuery()">
+      <button class="q-btn" onclick="doQuery()">立即查詢</button>
+    </div>
+    <div class="tags" id="quickTags"></div>
+    <hr class="divider">
+    <div class="q-row2">
+      <div class="sel-wrap" style="flex:0 0 128px">
+        <select id="regionSel">
+          <option value="domestic">國內</option>
+          <option value="japan">日本</option>
+          <option value="west">歐美 / 其他海外</option>
+        </select>
       </div>
-      <div class="search-row">
-        <input id="searchInput" class="field" type="text" placeholder="輸入店家，例如：IKEA、全家、蝦皮、Agoda" />
-        <button class="primary-btn" id="searchBtn">立即查詢</button>
+      <label style="display:flex;align-items:center;gap:6px;padding:0 4px;white-space:nowrap;color:var(--muted);font-size:12px"><input type="checkbox" id="birthdayToggle"> 生日月</label>
+      <div class="amt-wrap">
+        <span class="amt-pfx">$</span>
+        <input type="number" id="amountInput" placeholder="輸入消費金額" min="0" step="100" oninput="refreshResults()">
       </div>
-      <div class="config-row">
-        <input id="amountInput" class="field" type="number" min="0" step="1" placeholder="輸入消費金額，例如 1200" />
-        <select id="sceneSelect" class="select"><option value="normal">一般月份</option><option value="birthday">生日月</option><option value="travel">旅行情境</option></select>
-        <select id="sortSelect" class="select"><option value="default">常用店排序：預設</option><option value="travel">常用店排序：旅行優先</option><option value="daily">常用店排序：日常優先</option></select>
+      <div class="sel-wrap">
+        <select id="sceneSelect" onchange="refreshResults()">
+          <option value="applepay">Apple Pay</option>
+          <option value="linepay">LINE Pay</option>
+          <option value="taishinpay">台新Pay</option>
+          <option value="pxpay">全支付</option>
+          <option value="taiwanpay">台灣Pay</option>
+        </select>
       </div>
-      <div><div class="section-title">你的常用店家</div><div class="chips" id="quickButtons"></div></div>
-      <div class="result" id="resultBox"><span class="badge warn">先輸入店家或點常用按鈕</span><h2>還沒有查詢結果</h2><div class="kv"><div class="kv-item"><strong>建議權益</strong><span>查詢後顯示</span></div><div class="kv-item"><strong>等級</strong><span>預設 Level 2</span></div><div class="kv-item"><strong>估算回饋</strong><span>輸入金額後顯示</span></div><div class="kv-item"><strong>備註</strong><span>玩數位、樂饗購、趣旅行會依你選的等級切換試算。</span></div></div></div>
-      <div class="footer-actions"><button class="ghost-btn" id="copyBtn">複製目前結果</button></div>
-    </section>
-  </main>
-  <script>
-    const rewardRateByLevel={1:{"玩數位":0.02,"樂饗購":0.02,"趣旅行":0.02,"集精選":0.02,"慶生月":0.10},2:{"玩數位":0.03,"樂饗購":0.03,"趣旅行":0.03,"集精選":0.02,"慶生月":0.10},3:{"玩數位":0.033,"樂饗購":0.033,"趣旅行":0.033,"集精選":0.02,"慶生月":0.10}};
-    const rewards=[{keys:["ikea"],label:"IKEA",category:"居家 / 購物",plan:"樂饗購",birthdayPlan:"慶生月",note:"IKEA 已補進資料庫；若當期活動異動，仍請以官方公告為準。"},{keys:["全家","familymart"],label:"全家",category:"超商",plan:"玩數位",birthdayPlan:"慶生月",note:"日常通路可先看玩數位。"},{keys:["7-11","seven","統一超商"],label:"7-11",category:"超商",plan:"樂饗購",birthdayPlan:"慶生月",note:"超商回饋常受支付方式影響。"},{keys:["uber eats","ubereats","uber"],label:"Uber Eats",category:"外送",plan:"樂饗購",birthdayPlan:"慶生月",note:"外送與餐飲可優先看樂饗購。"},{keys:["蝦皮","shopee"],label:"蝦皮",category:"網購",plan:"玩數位",birthdayPlan:"慶生月",note:"網購通路通常先看玩數位。"},{keys:["momo"],label:"momo",category:"網購",plan:"玩數位",birthdayPlan:"慶生月",note:"大型電商可先看玩數位。"},{keys:["星巴克","starbucks"],label:"星巴克",category:"餐飲",plan:"樂饗購",birthdayPlan:"慶生月",note:"餐飲與咖啡可先看樂饗購。"},{keys:["新光三越","sks"],label:"新光三越",category:"百貨",plan:"樂饗購",birthdayPlan:"慶生月",note:"百貨通路可與生日月一起比對。"},{keys:["agoda","booking","trip.com","trip"],label:"訂房 / 旅行平台",category:"旅行",plan:"趣旅行",birthdayPlan:"慶生月",note:"訂房與旅行平台通常先看趣旅行。"}];
-    const quickOrders={default:["IKEA","全家","7-11","Uber Eats","蝦皮","momo","星巴克","新光三越","Agoda"],travel:["Agoda","IKEA","新光三越","星巴克","全家","7-11","蝦皮","momo","Uber Eats"],daily:["全家","7-11","IKEA","Uber Eats","蝦皮","momo","星巴克","新光三越","Agoda"]};
-    const quickButtons=document.getElementById('quickButtons'),input=document.getElementById('searchInput'),amountInput=document.getElementById('amountInput'),sceneSelect=document.getElementById('sceneSelect'),sortSelect=document.getElementById('sortSelect'),resultBox=document.getElementById('resultBox');
-    let currentResult='',currentLevel=2;
-    const normalize=t=>t.trim().toLowerCase();
-    const money=n=>new Intl.NumberFormat('zh-TW',{style:'currency',currency:'TWD',maximumFractionDigits:0}).format(n||0);
-    const getRate=plan=>(rewardRateByLevel[currentLevel]&&rewardRateByLevel[currentLevel][plan])||0;
-    const estimate=(plan,amount)=>Math.round((amount||0)*getRate(plan));
-    const findReward=query=>{const q=normalize(query); if(!q) return null; return rewards.find(item=>item.keys.some(k=>q.includes(k.toLowerCase()))||item.label.toLowerCase().includes(q));};
-    const resolvePlan=item=>sceneSelect.value==='birthday'&&item.birthdayPlan?item.birthdayPlan:(sceneSelect.value==='travel'&&item.category==='旅行'?'趣旅行':item.plan);
-    function renderResult(query){const found=findReward(query),amount=Number(amountInput.value||0),sceneLabel=sceneSelect.options[sceneSelect.selectedIndex].text; if(found){const plan=resolvePlan(found),rate=getRate(plan),cashback=estimate(plan,amount); currentResult=`${found.label}｜Level ${currentLevel}｜情境：${sceneLabel}｜建議權益：${plan}｜金額：${amount?money(amount):'未輸入'}｜估算回饋：${amount?money(cashback):'未輸入'}｜備註：${found.note}`; resultBox.innerHTML=`<span class="badge good">找到建議結果</span><h2>${found.label}</h2><div class="kv"><div class="kv-item"><strong>建議權益</strong><span>${plan}</span></div><div class="kv-item"><strong>等級</strong><span>Level ${currentLevel}</span></div><div class="kv-item"><strong>情境</strong><span>${sceneLabel}</span></div><div class="kv-item"><strong>估算回饋</strong><span>${amount?`${money(amount)} × ${(rate*100).toFixed(rate===0.033?1:0)}% ≈ ${money(cashback)}`:'請先輸入消費金額'}</span></div><div class="kv-item"><strong>備註</strong><span>${found.note}</span></div></div><div class="note">Level 1 為 2%，Level 2 為 3%，Level 3 為 3.3%，適用於玩數位、樂饗購、趣旅行；集精選固定 2%；生日月先以 10% 示意。</div>`;} else {resultBox.innerHTML=`<span class="badge warn">目前找不到</span><h2>${query||'未輸入店家'}</h2><div class="kv"><div class="kv-item"><strong>建議權益</strong><span>尚未建立</span></div><div class="kv-item"><strong>等級</strong><span>Level ${currentLevel}</span></div><div class="kv-item"><strong>估算回饋</strong><span>無法估算</span></div><div class="kv-item"><strong>備註</strong><span>這家店還沒放進你的資料庫。</span></div></div>`;}}
-    function runSearch(value){const q=value||input.value; if(!q.trim()) return; input.value=q; renderResult(q); [...quickButtons.querySelectorAll('.chip')].forEach(btn=>btn.classList.toggle('active',btn.dataset.store===q));}
-    function renderQuickButtons(){quickButtons.innerHTML=''; quickOrders[sortSelect.value].forEach(name=>{const btn=document.createElement('button'); btn.className=name==='IKEA'?'chip pink':'chip'; btn.type='button'; btn.dataset.store=name; btn.textContent=name; btn.onclick=()=>runSearch(name); quickButtons.appendChild(btn);});}
-    renderQuickButtons();
-    document.getElementById('searchBtn').onclick=()=>runSearch();
-    input.addEventListener('keydown',e=>{if(e.key==='Enter') runSearch();});
-    amountInput.addEventListener('input',()=>{if(input.value.trim()) renderResult(input.value);});
-    sortSelect.addEventListener('change',renderQuickButtons);
-    sceneSelect.addEventListener('change',()=>{if(input.value.trim()) renderResult(input.value);});
-    document.querySelectorAll('[data-level-btn]').forEach(btn=>btn.addEventListener('click',()=>{currentLevel=Number(btn.dataset.levelBtn); document.querySelectorAll('[data-level-btn]').forEach(b=>b.classList.toggle('active',b===btn)); if(input.value.trim()) renderResult(input.value);}));
-    document.getElementById('copyBtn').onclick=async()=>{if(!currentResult) return alert('先查一個店家再複製'); try{await navigator.clipboard.writeText(currentResult); alert('已複製結果');}catch{alert('複製失敗');}};
-    document.querySelector('[data-theme-toggle]').onclick=()=>{const root=document.documentElement; const next=root.getAttribute('data-theme')==='dark'?'light':'dark'; root.setAttribute('data-theme',next); document.querySelector('[data-theme-toggle]').textContent=next==='dark'?'☀':'☾';};
-  </script>
+    </div>
+  </div>
+
+  <div class="split-box" id="splitBox" style="display:none">
+    <div class="split-title">拆單比較</div>
+    <div class="split-row"><label>卡A金額</label><input type="number" id="splitA" placeholder="0" oninput="calcSplit()"></div>
+    <div class="split-row"><label>卡B金額</label><input type="number" id="splitB" placeholder="0" oninput="calcSplit()"></div>
+    <div class="split-result" id="splitResult"></div>
+  </div>
+
+    <div id="results"></div>
+</div>
+
+<div class="wrap page" id="pg-rules">
+  <div id="rulesContent"></div>
+</div>
+
+<div class="wrap page" id="pg-manage">
+  <div class="sec-lbl" style="margin-bottom:10px">我的卡片</div>
+  <div id="cardManagerList"></div>
+
+  <div class="io-box" style="margin-top:16px">
+    <div class="io-title">資料匯出 / 匯入</div>
+    <div class="io-row">
+      <button class="btn-sm pri" onclick="exportData()">匯出 JSON</button>
+      <button class="btn-sm sec" onclick="document.getElementById('importFile').click()">匯入 JSON</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn-sm danger" onclick="resetData()">重置</button>
+    </div>
+    <textarea class="json-area" id="exportArea" placeholder="匯出後 JSON 會顯示在此..."></textarea>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  資料庫 — 根據官方公告整理（2026 H1）
+// ══════════════════════════════════════════════
+const DEFAULT_DATA = {
+  version: "2026H1",
+  lastUpdated: "2026-05",
+  announcements: [
+    "【台新Richart】2026 H1：Pay著刷新增 LINE Pay 最高 2.3% 回饋",
+    "【國泰CUBE】Level 2 條件：用 CUBE App 繳卡費或國泰帳戶自動扣繳，指定通路享 3% ",
+    "【國泰CUBE】玩數位新增 AI 工具通路（ChatGPT、Gemini、Claude 等）"
+  ],
+  cards: [
+    {
+      id: "richart",
+      name: "台新 Richart 卡",
+      issuer: "台新銀行",
+      enabled: true,
+      badgeText: "台新",
+      badgeClass: "b-ts",
+      rewardType: "台新Point",
+      rewardNote: "1點=1元，可折抵消費",
+      levelConditions: {
+        "1": "持有台新信用卡（未完成自動扣繳）",
+        "2": "設定台新帳戶自動扣繳信用卡帳款（次期帳單後生效）",
+        "3": "不適用（Lv.3 為國泰財富管理方案）"
+      },
+      plans: [
+        {
+          id: "pay",
+          name: "Pay著刷",
+          desc: "台新Pay/LINE Pay/台灣Pay",
+          keywords: ["台新pay","linepay","line pay","台灣pay","twqr","行動支付","pay"],
+          levels: {
+            "1": { rate: 0.013, cap: null, note: "台新Pay 1.3%，LINE Pay/台灣Pay 不適用" },
+            "2": { rate: 0.038, cap: null, note: "台新Pay 3.8%、LINE Pay 2.3%、台灣Pay 3.8%" },
+            "3": { rate: 0.038, cap: null, note: "同Lv2（Richart無Lv3）" }
+          }
+        },
+        {
+          id: "tiantianshua",
+          name: "天天刷",
+          desc: "超商、量販、交通、停車",
+          keywords: ["7-11","seven","711","全家","family","萊爾富","ok超商","便利商店","超商","家樂福","大買家","量販","臺鐵","高鐵","火車","台鐵","uber","計程車","yoxi","停車","嘟嘟房","車麻吉","uspace"],
+          levels: {
+            "1": { rate: 0.013, cap: null, note: "Lv1 僅 1.3%，需完成自動扣繳升Lv2" },
+            "2": { rate: 0.033, cap: null, note: "3.3% ；7-11/全家限台新Pay" },
+            "3": { rate: 0.033, cap: null, note: "同Lv2" }
+          }
+        },
+        {
+          id: "dashua",
+          name: "大筆刷",
+          desc: "百貨、3C、傢俱",
+          keywords: ["百貨","sogo","新光三越","遠東","太平洋","mitsui","outlet","3c","apple","欣亞","燦坤","全國電子","ikea","特力","傢俱","家具"],
+          levels: {
+            "1": { rate: 0.013, cap: null, note: "1.3%" },
+            "2": { rate: 0.033, cap: null, note: "3.3% " },
+            "3": { rate: 0.033, cap: null, note: "同Lv2" }
+          }
+        },
+        {
+          id: "haoxiangshua",
+          name: "好饗刷",
+          desc: "餐廳、外送、飲料",
+          keywords: ["餐廳","餐飲","吃飯","外食","火鍋","燒肉","麥當勞","kfc","肯德基","burger","漢堡王","subway","pizza","星巴克","starbucks","85度c","cama","路易莎","咖啡","飲料","50嵐","手搖","uber eats","ubereats","foodpanda","外送"],
+          levels: {
+            "1": { rate: 0.013, cap: null, note: "1.3%" },
+            "2": { rate: 0.033, cap: null, note: "3.3% " },
+            "3": { rate: 0.033, cap: null, note: "同Lv2" }
+          }
+        },
+        {
+          id: "shuchuashua",
+          name: "數趣刷",
+          desc: "網購、串流、遊戲",
+          keywords: ["momo","pchome","shopee","蝦皮","yahoo購物","網購","netflix","disney+","disney","spotify","youtube premium","apple music","apple tv","google play","app store","遊戲","steam","amazon","淘寶","天貓"],
+          levels: {
+            "1": { rate: 0.013, cap: null, note: "1.3%" },
+            "2": { rate: 0.033, cap: null, note: "3.3% " },
+            "3": { rate: 0.033, cap: null, note: "同Lv2" }
+          }
+        },
+        {
+          id: "wanlvshua",
+          name: "玩旅刷",
+          desc: "機票、訂房、旅遊",
+          keywords: ["機票","中華航空","長榮","星宇","虎航","訂房","hotel","booking","agoda","airbnb","klook","kkday","旅遊","出國","海外","高鐵","和運","格上","rent a car"],
+          levels: {
+            "1": { rate: 0.013, cap: null, note: "1.3%" },
+            "2": { rate: 0.033, cap: null, note: "3.3% " },
+            "3": { rate: 0.033, cap: null, note: "同Lv2" }
+          }
+        },
+        {
+          id: "holiday",
+          name: "假日刷",
+          desc: "週六日不限通路",
+          keywords: ["假日","週末","週六","週日","假日消費"],
+          sceneTrigger: "weekend",
+          levels: {
+            "1": { rate: 0.013, cap: null, note: "假日 1.3%" },
+            "2": { rate: 0.02, cap: null, note: "假日 2%（週六日），" },
+            "3": { rate: 0.02, cap: null, note: "同Lv2" }
+          }
+        }
+      ],
+      baseRate: 0.003,
+      baseNote: "未符合指定通路時 0.3% 一般回饋"
+    },
+    {
+      id: "cube",
+      name: "國泰 CUBE 卡",
+      issuer: "國泰世華",
+      enabled: true,
+      badgeText: "國泰",
+      badgeClass: "b-ct",
+      rewardType: "小樹點",
+      rewardNote: "1點=1元，可折抵消費，可換哩程",
+      levelConditions: {
+        "1": "持有 CUBE 卡（未完成繳費任務）",
+        "2": "每月用 CUBE App 繳卡費，或設定國泰帳戶自動扣繳",
+        "3": "國泰財富管理 VIP（平均3個月往來資產≥300萬）"
+      },
+      plans: [
+        {
+          id: "digital",
+          name: "玩數位",
+          desc: "串流、網購、AI工具",
+          keywords: ["netflix","disney+","disney","spotify","youtube premium","apple music","apple tv","apple media","google play","app store","串流","訂閱","momo","pchome","shopee","蝦皮","網購","amazon","淘寶","天貓","coupang","酷澎","chatgpt","claude","gemini","perplexity","ai工具","ai","notion","canva","cursor","duolingo","gamma","speak"],
+          levels: {
+            "1": { rate: 0.02, cap: null, note: "2% " },
+            "2": { rate: 0.03, cap: null, note: "3% （需完成繳費任務）" },
+            "3": { rate: 0.033, cap: null, note: "3.3% （財管VIP）" }
+          }
+        },
+        {
+          id: "dining",
+          name: "樂饗購",
+          desc: "百貨、餐廳、藥妝",
+          keywords: ["sogo","新光三越","遠東百貨","太平洋","微風","101","att","京站","美麗華","大葉高島屋","三井","lalaport","mitsui","百貨","outlet","餐廳","餐飲","吃飯","外食","火鍋","燒肉","麥當勞","星巴克","starbucks","uber eats","ubereats","foodpanda","外送","康是美","屈臣氏","日藥本舖","藥妝"],
+          levels: {
+            "1": { rate: 0.02, cap: null, note: "2% " },
+            "2": { rate: 0.03, cap: null, note: "3% " },
+            "3": { rate: 0.033, cap: null, note: "3.3% " }
+          }
+        },
+        {
+          id: "travel",
+          name: "趣旅行",
+          desc: "海外、機票、交通、訂房",
+          keywords: ["海外","出國","abroad","機票","中華航空","長榮","星宇","虎航","國泰航空","日本航空","ana","新加坡航空","訂房","hotel","booking","agoda","airbnb","klook","kkday","旅遊","高鐵","uber","grab","yoxi","台灣大車隊","和運","格上","suica","pasmo","icoca","東京迪士尼","大阪環球","usj"],
+          levels: {
+            "1": { rate: 0.02, cap: null, note: "海外實體/指定通路 2%" },
+            "2": { rate: 0.03, cap: null, note: "3% " },
+            "3": { rate: 0.033, cap: null, note: "3.3% " }
+          }
+        },
+        {
+          id: "select",
+          name: "集精選",
+          desc: "超商、超市、加油、停車",
+          keywords: ["7-11","seven","711","全家","family","便利商店","超商","全聯","家樂福","lopia","超市","量販","中油","加油","停車","充電","u-power","ikea"],
+          levels: {
+            "1": { rate: 0.02, cap: null, note: "2% " },
+            "2": { rate: 0.02, cap: null, note: "2%（集精選無 Lv2 加碼，固定 2%）" },
+            "3": { rate: 0.02, cap: null, note: "2%（固定）" }
+          }
+        },
+        {
+          id: "birthday",
+          name: "慶生月",
+          desc: "生日月當月限定，餐廳/遊樂園最高10%",
+          keywords: ["生日","birthday","慶生"],
+          sceneTrigger: "birthday",
+          levels: {
+            "1": { rate: 0.10, cap: null, note: "生日月：新光三越/UE/Klook/FunNow 最高10%，其他指定 5%" },
+            "2": { rate: 0.10, cap: null, note: "同上（慶生月不分等級）" },
+            "3": { rate: 0.10, cap: null, note: "同上" }
+          }
+        }
+      ],
+      baseRate: 0.003,
+      baseNote: "指定通路外 0.3% 一般回饋"
+    }
+  ],
+  myStatus: {
+    richart: { monthlySpent: 0, monthlyRewarded: 0, registered: true },
+    cube: { monthlySpent: 0, monthlyRewarded: 0, registered: true }
+  },
+  myLevel: "2"
+};
+
+// ── State ──
+let DATA = JSON.parse(localStorage.getItem('cardData') || 'null') || JSON.parse(JSON.stringify(DEFAULT_DATA));
+let currentPage = 'q';
+let lastQuery = '';
+let lastCat = null;
+let lastPlanMatches = {};
+
+function save(){ localStorage.setItem('cardData', JSON.stringify(DATA)); }
+
+// ── Page nav ──
+function goPage(p){
+  currentPage = p;
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('pg-'+p).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>{
+    const pages=['q','rules','manage'];
+    b.classList.toggle('active', pages[i]===p);
+  });
+  if(p==='rules') renderRules();
+  if(p==='manage') renderManage();
+}
+
+// ── Level ──
+function renderLevelRow(){
+  const lv = DATA.myLevel;
+  let html = '';
+  ['1','2','3'].forEach(n=>{
+    const descs = {
+      '1':'未設定自動扣繳',
+      '2':'自動扣繳 / App繳費',
+      '3':'財管VIP（300萬往來）'
+    };
+    html += `<button class="lv-btn${lv===n?' active':''}" onclick="setLevel('${n}')">
+      <span class="lv-n">Lv.${n}</span>
+      <span class="lv-d">${descs[n]}</span>
+    </button>`;
+  });
+  document.getElementById('lvRow').innerHTML = html;
+}
+
+function setLevel(lv){
+  DATA.myLevel = lv;
+  save();
+  renderLevelRow();
+  if(lastQuery) doQuery();
+}
+
+// ── Announcements ──
+function renderAnnounce(){
+  const bar = document.getElementById('announceBar');
+  if(!DATA.announcements?.length){bar.style.display='none';return;}
+  bar.style.display='block';
+  bar.innerHTML = `<div class="announce-hd">📢 最新公告 <span style="font-size:10px;font-weight:400;color:var(--amber)">${DATA.version}</span></div>`
+    + DATA.announcements.map(a=>`<div class="announce-item">${escHtml(a)}</div>`).join('');
+}
+
+// ── Quick tags ──
+function renderQuickTags(){
+  // 依要求移除「日本、ChatGPT」，並加入「台灣pay」
+  const tags = ['7-11','全家','家樂福','全支付','LINE Pay','台新Pay','台灣pay'];
+  document.getElementById('quickTags').innerHTML = tags.map(t=>
+    `<span class="tag" onclick="fillStore('${t}')">${t}</span>`
+  ).join('');
+}
+
+function fillStore(name){
+  document.getElementById('storeInput').value = name;
+  doQuery();
+}
+
+function handleStoreInput(){
+  // could auto-suggest
+}
+
+// ── Store → plan detection ──
+function detectPlan(input, cardId){
+  const card = DATA.cards.find(c=>c.id===cardId);
+  if(!card) return null;
+  const lower = input.toLowerCase();
+  for(const plan of card.plans){
+    for(const kw of plan.keywords){
+      if(lower.includes(kw.toLowerCase())) return plan;
+    }
+  }
+  return null;
+}
+
+// ── Compute best rate for a card ──
+function computeCardResult(card, input, scene, lv){
+  let bestPlan = null;
+  let bestRate = card.baseRate;
+  const lower = input.toLowerCase();
+
+  for(const plan of card.plans){
+    // scene-triggered plans
+    if(plan.sceneTrigger && plan.sceneTrigger !== scene) continue;
+
+    for(const kw of plan.keywords){
+      if(lower.includes(kw.toLowerCase())){
+        const r = plan.levels[lv].rate;
+        if(r > bestRate){ bestRate = r; bestPlan = plan; }
+        break;
+      }
+    }
+  }
+
+  // Special: weekend scene unlocks 假日刷 for any store
+  if(scene==='weekend'){
+    const wPlan = card.plans.find(p=>p.id==='holiday'||p.sceneTrigger==='weekend');
+    if(wPlan){
+      const r = wPlan.levels[lv].rate;
+      if(r > bestRate){ bestRate = r; bestPlan = wPlan; }
+    }
+  }
+
+  const lvData = bestPlan ? bestPlan.levels[lv] : null;
+  return { card, plan: bestPlan, rate: bestRate, lvData };
+}
+
+// ── Main query ──
+function doQuery(){
+  const v = document.getElementById('storeInput').value.trim();
+  if(!v){ document.getElementById('results').innerHTML=''; return; }
+  lastQuery = v;
+  refreshResults();
+}
+
+function refreshResults(){
+  if(!lastQuery) return;
+  const lv = DATA.myLevel;
+  const amount = parseFloat(document.getElementById('amountInput').value)||0;
+  const scene = document.getElementById('sceneSelect').value;
+
+  const activeCards = DATA.cards.filter(c=>c.enabled);
+  if(!activeCards.length){
+    document.getElementById('results').innerHTML='<div class="no-r">沒有啟用的卡片。請到「管理」頁面新增或啟用卡片。</div>';
+    return;
+  }
+
+  const results = activeCards.map(card=>{
+    const cr = computeCardResult(card, lastQuery, scene, lv);
+    const cashback = amount>0 ? amount * cr.rate : null;
+    return {...cr, cashback};
+  }).sort((a,b)=>(b.cashback??b.rate)-(a.cashback??a.rate));
+
+  const sceneLabels = {
+    applepay:'Apple Pay', linepay:'LINE Pay', taishinpay:'台新Pay', pxpay:'全支付', taiwanpay:'台灣Pay'
+  };
+
+  let html = `<div class="r-header">
+    <span class="r-title">查詢結果</span>
+    <span class="r-query">${escHtml(lastQuery)}</span>
+    <span class="r-scene">· ${sceneLabels[scene]} · Lv.${lv}</span>
+  </div>`;
+
+  results.forEach((r,idx)=>{
+    html += renderRC(r, idx===0, amount, lv);
+  });
+
+  // Split compare button
+  if(results.length>=2 && amount>0){
+    document.getElementById('splitBox').style.display='block';
+    initSplit(results);
+  } else {
+    document.getElementById('splitBox').style.display='none';
+  }
+
+  document.getElementById('results').innerHTML = html;
+}
+
+let splitCards = [];
+function initSplit(results){
+  splitCards = results;
+  document.getElementById('splitA').value = '';
+  document.getElementById('splitB').value = '';
+  document.getElementById('splitResult').innerHTML = '輸入兩張卡各自要刷的金額，自動加總比較回饋。';
+}
+
+function calcSplit(){
+  if(splitCards.length<2) return;
+  const a = parseFloat(document.getElementById('splitA').value)||0;
+  const b = parseFloat(document.getElementById('splitB').value)||0;
+  const ca = a * splitCards[0].rate;
+  const cb = b * splitCards[1].rate;
+  document.getElementById('splitResult').innerHTML =
+    `<strong>${splitCards[0].card.name}</strong> $${fmt(a)} → 回饋 <span style="color:var(--green);font-family:'DM Mono',monospace;font-weight:700">+$${fmt(ca)}</span><br>`+
+    `<strong>${splitCards[1].card.name}</strong> $${fmt(b)} → 回饋 <span style="color:var(--green);font-family:'DM Mono',monospace;font-weight:700">+$${fmt(cb)}</span><br>`+
+    `合計回饋：<span style="color:var(--blue);font-family:'DM Mono',monospace;font-weight:700">$${fmt(ca+cb)}</span>`;
+}
+
+function renderRC(r, isBest, amount, lv){
+  const {card, plan, rate, cashback, lvData} = r;
+  const noMatch = !plan;
+
+  // Build notes
+  const notes = [];
+  if(lvData) notes.push(lvData.note);
+  notes.push(card.rewardNote);
+
+  // Level condition hint
+  const lvCond = card.levelConditions[lv];
+  const region = document.getElementById('regionSel') ? document.getElementById('regionSel').value : 'domestic';
+  const regionLabel = region === 'japan' ? '日本' : region === 'west' ? '歐美 / 其他海外' : '國內';
+
+  return `<div class="rc${isBest?' best':''}">
+    <div class="rc-top">
+      <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
+      <div class="rc-info">
+        <div class="rc-name">${card.name}</div>
+        <div class="rc-sub">${card.issuer} · ${card.rewardType} · Lv.${lv}</div>
+      </div>
+      ${isBest?'<div class="rc-best-tag">推薦</div>':''}
+    </div>
+    <div class="rc-stats">
+      <div class="stat"><div class="sv">${escHtml(plan ? plan.name : '一般回饋')}</div><div class="sl">適用方案</div></div>
+      <div class="stat"><div class="sv blue">${pct(rate)}</div><div class="sl">回饋率</div></div>
+      <div class="stat"><div class="sv green">${amount>0?'$'+fmt(cashback):'—'}</div><div class="sl">本次回饋</div></div>
+    </div>
+    <div class="rc-plan">${region==='domestic' ? (plan ? `需切換方案：<strong>${plan.name}</strong>` : '需切換方案：<strong>一般回饋</strong>') : `出國情境：<strong>${regionLabel}</strong>`}｜升等條件：${escHtml(lvCond)}</div>
+    <div class="rc-notes">${notes.map(n=>`<span>${escHtml(n)}</span>`).join('')}</div>
+  </div>`;
+}
+
+// ── STATUS PAGE ──
+function renderStatus(){ return; /* status removed */ }
+
+// ── RULES PAGE ──
+function renderRules(){
+  const lv = DATA.myLevel;
+  let html = '';
+  DATA.cards.forEach(card=>{
+    html += `<div class="rule-box" style="margin-bottom:14px">
+      <div class="rule-box-hd">
+        <div class="rc-badge ${card.badgeClass}" style="width:28px;height:28px;font-size:9px">${card.badgeText}</div>
+        ${card.name} — Lv.${lv} 權益
+      </div>
+      <div style="padding:10px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)">
+        <strong>升等條件：</strong>${escHtml(card.levelConditions[lv])}<br>
+        <strong>回饋方式：</strong>${card.rewardType}（${card.rewardNote}）
+      </div>
+      <table class="rule-table">
+        <tr><th>方案</th><th>主要通路</th><th>回饋率</th><th>上限</th></tr>
+        ${card.plans.map(p=>{
+          const pl = p.levels[lv];
+          return `<tr>
+            <td><strong>${p.name}</strong><span class="sub">${p.desc}</span></td>
+            <td style="font-size:11px;color:var(--muted)">${p.keywords.slice(0,5).join('、')}...</td>
+            <td>${pct(pl.rate)}</td>
+            <td>${pl.cap ? '$'+fmt(pl.cap) : ''}</td>
+          </tr>`;
+        }).join('')}
+        <tr>
+          <td>一般消費</td><td style="font-size:11px;color:var(--muted)">其他通路</td>
+          <td>${pct(card.baseRate)}</td><td></td>
+        </tr>
+      </table>
+    </div>`;
+  });
+  document.getElementById('rulesContent').innerHTML = html;
+}
+
+// ── MANAGE PAGE ──
+function renderManage(){
+  let html = '';
+  DATA.cards.forEach(card=>{
+    html += `<div class="cm-card">
+      <div class="cm-head">
+        <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
+        <div class="cm-info">
+          <div class="cm-name">${escHtml(card.name)}</div>
+          <div class="cm-sub">${card.issuer} · ${card.rewardType}</div>
+        </div>
+        <button class="cm-toggle ${card.enabled?'on':'off'}" onclick="toggleCard('${card.id}')">
+          ${card.enabled?'啟用中':'已停用'}
+        </button>
+      </div>
+      ${card.enabled ? `<div class="cm-body">
+        ${card.plans.map(p=>`
+          <div class="cm-plan-row">
+            <div class="cm-plan-name">${p.name}</div>
+            <div class="cm-plan-stores">${p.keywords.slice(0,4).join('・')}</div>
+            <div class="cm-plan-rate">${pct(p.levels[DATA.myLevel].rate)}</div>
+          </div>`).join('')}
+      </div>` : ''}
+    </div>`;
+  });
+  document.getElementById('cardManagerList').innerHTML = html;
+}
+
+function toggleCard(id){
+  const c = DATA.cards.find(c=>c.id===id);
+  if(c) c.enabled = !c.enabled;
+  save();
+  renderManage();
+}
+
+// ── Data IO ──
+function exportData(){
+  const json = JSON.stringify(DATA, null, 2);
+  document.getElementById('exportArea').value = json;
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,'+encodeURIComponent(json);
+  a.download = `card-data-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function importData(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      const d = JSON.parse(e.target.result);
+      DATA = d; save();
+      alert('匯入成功！');
+      location.reload();
+    }catch(err){ alert('JSON 格式錯誤：'+err.message); }
+  };
+  reader.readAsText(file);
+}
+
+function resetData(){
+  if(!confirm('確定要重置所有資料嗎？此動作無法復原。')) return;
+  localStorage.removeItem('cardData');
+  location.reload();
+}
+
+// ── Utils ──
+function pct(r){ return (r*100).toFixed(1).replace(/\.0$/,'')+'%'; }
+function fmt(n){ return Math.round(n).toLocaleString('zh-TW'); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── Init ──
+renderLevelRow();
+renderAnnounce();
+renderQuickTags();
+</script>
 </body>
 </html>
