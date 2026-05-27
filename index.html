@@ -54,13 +54,16 @@ input[type=number]{font-family:'DM Mono',monospace}
 .q-btn:hover{background:#2a2a2a}
 .q-btn:active{transform:scale(.97)}
 
-.ac-box{position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-sm);box-shadow:0 4px 12px rgba(0,0,0,0.1);max-height:240px;overflow-y:auto;z-index:999;display:none;margin-top:2px}
-.ac-item{padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--surface2);font-size:13px}
-.ac-item:hover, .ac-item.active{background:var(--blue-bg)}
-.ac-name{font-weight:500;color:var(--text);flex:1}
+/* ── Suggest box（新版） ── */
+.suggest-box{position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-sm);box-shadow:0 4px 12px rgba(0,0,0,0.1);max-height:260px;overflow-y:auto;z-index:999;display:none;margin-top:2px}
+.suggest-item{padding:8px 12px;cursor:pointer;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--surface2);font-size:13px}
+.suggest-item:hover,.suggest-item.active{background:var(--blue-bg)}
+.suggest-name{font-weight:500;color:var(--text);flex:1}
+.suggest-plan{font-size:11px;color:var(--muted)}
+.suggest-rate{font-size:12px;font-weight:700;font-family:'DM Mono',monospace;color:var(--blue);flex-shrink:0}
 
-.q-row2{display:flex;gap:8px}
-.amt-wrap{position:relative;flex:1;min-width:0}
+.q-row2{display:flex;gap:8px;flex-wrap:wrap}
+.amt-wrap{position:relative;flex:1;min-width:120px}
 .amt-pfx{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-family:'DM Mono',monospace;font-size:13px}
 .amt-wrap input{padding-left:22px;width:100%}
 .sel-wrap{position:relative}
@@ -71,16 +74,16 @@ select{padding-right:26px;width:100%;cursor:pointer}
 .tag{padding:3px 9px;background:var(--surface);border:1px solid var(--border);border-radius:16px;font-size:12px;cursor:pointer;color:var(--muted);transition:all .1s;font-weight:500}
 .tag:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
 
-/* ── 避雷常識提醒看板 ── */
 .notice-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;margin-top:12px;font-size:12.5px;color:var(--text)}
 .notice-box strong{color:var(--text);font-weight:600}
 .notice-ul{margin-left:16px;margin-top:4px}
 .notice-ul li{margin-bottom:4px;color:#444}
 
-/* ── RESULT CARDS ── */
+/* ── Result cards ── */
 .r-header{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .r-title{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--muted)}
 .r-query{font-size:13px;font-weight:600}
+.r-scene{font-size:11px;color:var(--muted)}
 
 .rc{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:9px}
 .rc.best{border-color:var(--blue)}
@@ -92,30 +95,38 @@ select{padding-right:26px;width:100%;cursor:pointer}
 .rc-name{font-size:13px;font-weight:700}
 .rc-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .rc-best-tag{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}
-
 .rc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
 .stat{background:var(--surface2);border-radius:7px;padding:8px 10px;text-align:center}
 .sv{font-size:18px;font-weight:700;font-family:'DM Mono',monospace;line-height:1.2}
+.sv.sm{font-size:12px;font-family:'Noto Sans TC',sans-serif}
 .sv.blue{color:var(--blue)}
 .sv.green{color:var(--green)}
 .sv.red{color:var(--red)}
 .sl{font-size:11px;color:var(--muted);margin-top:1px}
 .rc-plan{margin-top:7px;padding:7px 10px;background:var(--blue-bg);border-radius:6px;font-size:12px;color:var(--blue);font-weight:500}
-.rc-plan.warning{background:var(--red-bg);color:var(--red)}
+.rc-nomatch{margin-top:7px;padding:7px 10px;background:var(--surface2);border-radius:6px;font-size:12px;color:var(--muted)}
+.rc-notes{margin-top:6px;display:flex;flex-wrap:wrap;gap:5px}
+.rc-notes span{font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 7px;border-radius:4px}
+.no-r{padding:20px;text-align:center;color:var(--muted);font-size:13px}
 
-/* ── 規則頁獨有樣式 ── */
-.rule-card-sec {background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px}
-.rule-card-sec h3 {font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.rule-meta {font-size:12.5px;color:#555;margin-bottom:5px}
-.rule-links {font-size:12.5px;margin-bottom:12px;color:var(--muted)}
-.rule-links a {margin-right:8px}
-.rule-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;margin-bottom:6px;overflow:hidden;border-radius:var(--r-sm);border:1px solid var(--border)}
-.rule-table th{background:var(--surface2);padding:8px 10px;text-align:left;font-weight:600;border-bottom:1.5px solid var(--border);color:var(--muted);font-size:11px}
-.rule-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+/* ── Split 試算 ── */
+.split-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:9px}
+.split-title{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--muted);margin-bottom:8px}
+.split-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.split-lbl{font-size:12px;font-weight:600;white-space:nowrap;min-width:80px}
+.split-result{font-size:12.5px;line-height:1.8;padding:8px 10px;background:var(--surface2);border-radius:6px}
+
+/* ── 規則頁 ── */
+.rule-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:14px}
+.rule-box-hd{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.rule-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;overflow:hidden;border-radius:var(--r-sm);border:1px solid var(--border)}
+.rule-table th{background:var(--surface2);padding:7px 10px;text-align:left;font-weight:600;border-bottom:1.5px solid var(--border);color:var(--muted);font-size:11px}
+.rule-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.rule-table td.rate{font-family:'DM Mono',monospace;font-weight:700;color:var(--blue);font-size:13px;white-space:nowrap}
+.rule-table td.stores{color:#555;font-size:11.5px}
 .rule-table tr:last-child td{border-bottom:none}
-.highlight-rate {font-family:'DM Mono',monospace;font-weight:700;color:var(--blue);font-size:13px}
-.rule-notice-panel {background:var(--red-bg);border:1px solid #f8cbad;border-radius:var(--r-sm);padding:11px 14px;margin-top:12px;font-size:12.5px;color:#222}
 
+/* ── 管理頁 ── */
 .cm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
 .cm-head{padding:12px 14px;display:flex;align-items:center;gap:10px}
 .cm-info{flex:1}
@@ -137,7 +148,9 @@ textarea.json-area{width:100%;height:100px;font-family:'DM Mono',monospace;font-
 hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
 </style>
 </head>
-<body onclick="hideAutocomplete()">
+
+<!-- ✅ 修正1：body onclick 改成 hideSuggest() -->
+<body onclick="hideSuggest()">
 
 <div class="hd">
   <div class="hd-inner">
@@ -158,39 +171,39 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
 
   <div class="q-card" onclick="event.stopPropagation()">
     <div class="q-row">
-      <input type="text" class="q-store" id="storeInput" placeholder="輸入店家或地雷項目，例：Apple、麥當勞、全家" autocomplete="off" oninput="onSearchInput()" onkeydown="onSearchKeydown(event)">
+      <!-- ✅ 修正2：oninput / onkeydown 改成新函數名 -->
+      <input type="text" class="q-store" id="storeInput"
+        placeholder="輸入店家，例：麥當勞、Netflix、長榮航空"
+        autocomplete="off"
+        oninput="handleInput()"
+        onkeydown="handleKey(event)">
       <button class="q-btn" onclick="doQuery()">立即查詢</button>
-      <div class="ac-box" id="acBox"></div>
+      <!-- ✅ 修正3：id 改成 suggestList，class 改成 suggest-box -->
+      <div class="suggest-box" id="suggestList"></div>
     </div>
-    
+
     <div class="tags" id="quickTags"></div>
-    
+
     <hr class="divider">
     <div class="q-row2">
-      <div class="sel-wrap" style="flex:0 0 110px">
-        <select id="regionSel" onchange="refreshResults()">
-          <option value="domestic">國內</option>
-          <option value="japan">日本</option>
-          <option value="europe">歐洲實體</option>
-          <option value="foreign">海外其他</option>
-        </select>
-      </div>
       <label style="display:flex;align-items:center;gap:4px;padding:0 2px;white-space:nowrap;color:var(--muted);font-size:12px">
         <input type="checkbox" id="birthdayToggle" onchange="refreshResults()"> 生日月🎂
       </label>
       <div class="amt-wrap">
         <span class="amt-pfx">$</span>
-        <input type="number" id="amountInput" placeholder="輸入消費金額" min="0" step="100" oninput="refreshResults()">
+        <input type="number" id="amountInput" placeholder="消費金額" min="0" step="100" oninput="refreshResults()">
       </div>
-      
+      <!-- ✅ 修正4：id 改成 paySelect，選項同步更新 -->
       <div class="sel-wrap" style="flex:0 0 150px">
-        <select id="sceneSelect" onchange="refreshResults()">
-          <option value="none">實體卡／感應</option>
-          <option value="applepay">Apple Pay</option>
-          <option value="linepay">LINE Pay</option>
+        <select id="paySelect" onchange="refreshResults()">
+          <option value="none">實體卡／條碼</option>
           <option value="taishinpay">台新Pay</option>
-          <option value="pxpayplus">全支付</option>
-          <option value="taiwanpay">台灣pay</option>
+          <option value="linepay">LINE Pay</option>
+          <option value="applepay">Apple Pay</option>
+          <option value="googlepay">Google Pay</option>
+          <option value="taiwanpay">台灣Pay</option>
+          <option value="pxpay">全支付</option>
+          <option value="famipay">FamiPay</option>
         </select>
       </div>
     </div>
@@ -199,13 +212,33 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
       <strong>📌 點點簽通路交易限制（麥當勞、肯德基、摩斯、連鎖停車場等）</strong>
       <ul class="notice-ul">
         <li><strong>實體卡 / Apple Pay / Google Pay：</strong>走聯合小額支付平台，台新銀行列為 0% 不回饋</li>
-        <li><strong>台新 Pay：</strong>走台新專屬通道，可享行動支付方案，最高 3.8% 回饋</li>
+        <li><strong>台新 Pay：</strong>走台新專屬通道，可享 Pay著刷方案，最高 3.8% 回饋</li>
         <li><strong>LINE Pay：</strong>同樣可繞過小額平台，Richart 卡適用 2.3% 回饋</li>
       </ul>
     </div>
   </div>
 
   <div id="results"></div>
+
+  <!-- ✅ 修正5：新增 splitBox HTML -->
+  <div class="split-box" id="splitBox" style="display:none">
+    <div class="split-title">✂️ 分卡試算</div>
+    <div class="split-row">
+      <span class="split-lbl" id="splitLabelA">卡片A</span>
+      <div class="amt-wrap" style="max-width:140px">
+        <span class="amt-pfx">$</span>
+        <input type="number" id="splitA" placeholder="刷卡金額" min="0" step="100" oninput="calcSplit()">
+      </div>
+    </div>
+    <div class="split-row">
+      <span class="split-lbl" id="splitLabelB">卡片B</span>
+      <div class="amt-wrap" style="max-width:140px">
+        <span class="amt-pfx">$</span>
+        <input type="number" id="splitB" placeholder="刷卡金額" min="0" step="100" oninput="calcSplit()">
+      </div>
+    </div>
+    <div class="split-result" id="splitResult"></div>
+  </div>
 </div>
 
 <div class="wrap page" id="pg-rules">
@@ -228,383 +261,639 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
 </div>
 
 <script>
-const MASTER_STORES = [
-  { name: "7-11", sync: ["7-11", "711", "seven", "小七", "統一超商"] },
-  { name: "全家", sync: ["全家", "family", "全家超商"] },
-  { name: "家樂福", sync: ["家樂福", "carrefour"] },
-  { name: "全支付", sync: ["全支付", "pxpayplus"] },
-  { name: "LINE Pay", sync: ["line pay", "linepay"] },
-  { name: "台新Pay", sync: ["台新pay", "taishinpay"] },
-  { name: "日本", sync: ["日本", "japan", "日幣"] },
-  { name: "ChatGPT", sync: ["chatgpt", "openai"] },
-  { name: "王品瘋Pay", sync: ["王品", "王品瘋pay", "瘋pay"] },
-  { name: "Uber Eats", sync: ["uber eats", "ubereats", "外送"] },
-  { name: "FunNow", sync: ["funnow"] },
-  { name: "錢櫃KTV", sync: ["錢櫃", "錢櫃ktv", "ktv"] },
-  { name: "晶華國際酒店", sync: ["晶華", "晶華酒店"] },
-  { name: "台北君悅酒店", sync: ["君悅", "君悅酒店", "台北君悅"] },
-  { name: "麥當勞", sync: ["麥當勞", "mcdonalds"] }
-];
+const STORES = {
+  "seven":       { label:"7-Eleven",      aliases:["7-11","711","seven","小七","統一超商","7eleven","7 eleven"] },
+  "familymart":  { label:"全家",           aliases:["全家","family mart","familymart","全家超商","全家便利"] },
+  "hilife":      { label:"萊爾富",         aliases:["萊爾富","hilife","hi-life","萊爾富超商"] },
+  "okmart":      { label:"OK超商",         aliases:["ok","okmart","ok超商","ok便利","ok mart"] },
+  "pxmart":      { label:"全聯",           aliases:["全聯","全聯福利中心","pxmart","px mart","全聯超市"] },
+  "carrefour":   { label:"家樂福",         aliases:["家樂福","carrefour","家樂福量販","家樂福超市"] },
+  "lopia":       { label:"LOPIA",          aliases:["lopia","日系超市"] },
+  "costco":      { label:"好市多",         aliases:["好市多","costco","costco台灣"] },
+  "topmart":     { label:"大買家",         aliases:["大買家","大買家量販"] },
+  "donki":       { label:"唐吉訶德",       aliases:["唐吉訶德","唐吉軻德","donki","don quijote","don don donki"] },
+  "skm":         { label:"新光三越",       aliases:["新光三越","新光","skm","skm百貨"] },
+  "sogo":        { label:"遠東SOGO",       aliases:["sogo","遠東sogo","廣三sogo","高雄sogo","太平洋sogo"] },
+  "feds":        { label:"遠東百貨",       aliases:["遠東百貨","遠東","far eastern","遠東巨城","big city"] },
+  "breeze":      { label:"微風廣場",       aliases:["微風廣場","微風","breeze","breeze center"] },
+  "taipei101":   { label:"台北101",        aliases:["台北101","101","taipei 101"] },
+  "att":         { label:"ATT 4 FUN",      aliases:["att","att4fun","att信義","att 4 fun"] },
+  "qsquare":     { label:"京站",           aliases:["京站","京站時尚廣場","q square","q-square"] },
+  "miramar":     { label:"美麗華",         aliases:["美麗華","miramar","美麗華百樂園"] },
+  "takashimaya": { label:"大葉高島屋",     aliases:["高島屋","大葉高島屋","takashimaya"] },
+  "mitsui":      { label:"三井OUTLET",     aliases:["三井","三井outlet","三井林口","三井台中","mitsui outlet","三井outlet park"] },
+  "lalaport":    { label:"Lalaport",       aliases:["lalaport","lalaport台中","lalaport南港","mitsui lalaport","ららぽーと"] },
+  "gloria":      { label:"華泰名品城",     aliases:["華泰","華泰名品城","gloria outlets","gloria"] },
+  "hanshin":     { label:"漢神百貨",       aliases:["漢神","漢神百貨","漢神巨蛋"] },
+  "dreammall":   { label:"夢時代",         aliases:["夢時代","夢時代購物中心","dream mall"] },
+  "umall":       { label:"環球購物中心",   aliases:["環球","環球購物中心","u-mall","環球mall"] },
+  "citylink":    { label:"CITYLINK",       aliases:["citylink","city link","citylink南港"] },
+  "uni_time":    { label:"統一時代百貨",   aliases:["統一時代","統一時代百貨"] },
+  "bellavita":   { label:"BELLAVITA",      aliases:["bellavita","bella vita","貝拉維塔"] },
+  "eslite":      { label:"誠品生活",       aliases:["誠品","誠品生活","eslite","eslite spectrum"] },
+  "zhongyou":    { label:"中友百貨",       aliases:["中友","中友百貨","tiger city"] },
+  "noke":        { label:"NOKE忠泰樂生活", aliases:["noke","忠泰樂生活"] },
+  "syntrend":    { label:"三創生活",       aliases:["三創","三創生活","syntrend","三創數位"] },
+  "tsannkuen":   { label:"燦坤",           aliases:["燦坤","燦坤3c","tsannkuen"] },
+  "hsin_ya":     { label:"欣亞數位",       aliases:["欣亞","欣亞數位"] },
+  "ikea":        { label:"IKEA",           aliases:["ikea","宜家","宜家家居","ikea台灣","宜家傢俬"] },
+  "tokyu_hands": { label:"特力屋",         aliases:["特力屋","特力","b&q","hola"] },
+  "uniqlo":      { label:"UNIQLO",         aliases:["uniqlo","優衣庫","ユニクロ"] },
+  "zara":        { label:"ZARA",           aliases:["zara"] },
+  "hm":          { label:"H&M",            aliases:["h&m","hm"] },
+  "mcdonalds":   { label:"麥當勞",         aliases:["麥當勞","mcdonald","mcdonalds","mcd","麥噹噹","mc"] },
+  "kfc":         { label:"肯德基",         aliases:["肯德基","kfc","kentucky"] },
+  "burgerking":  { label:"漢堡王",         aliases:["漢堡王","burger king","burgerking"] },
+  "mos":         { label:"摩斯漢堡",       aliases:["摩斯漢堡","摩斯","mos","mos burger"] },
+  "starbucks":   { label:"星巴克",         aliases:["星巴克","starbucks","sbux","星爸爸","星巴"] },
+  "85c":         { label:"85度C",          aliases:["85度c","85c","八十五度c"] },
+  "louisa":      { label:"路易莎",         aliases:["路易莎","louisa","路易莎咖啡"] },
+  "cama":        { label:"CAMA咖啡",       aliases:["cama","cama cafe","cama咖啡"] },
+  "50lan":       { label:"50嵐",           aliases:["50嵐","五十嵐","50lan"] },
+  "magu":        { label:"麻古茶坊",       aliases:["麻古茶坊","麻古"] },
+  "bafang":      { label:"八方雲集",       aliases:["八方雲集","八方","八方雲集鍋貼"] },
+  "laya":        { label:"拉亞漢堡",       aliases:["拉亞漢堡","拉亞"] },
+  "wangpin":     { label:"王品",           aliases:["王品","王品集團","陶板屋","西堤","夏慕尼","石二鍋","聚北海道","享鴨","青花驕","肉次方"] },
+  "wangpin_pay": { label:"王品瘋Pay",      aliases:["王品瘋pay","王品app","瘋pay","瘋美食","王品 pay"] },
+  "ubereats":    { label:"Uber Eats",      aliases:["uber eats","ubereats","uber外送","吳伯毅"] },
+  "foodpanda":   { label:"Foodpanda",      aliases:["foodpanda","熊貓外送","空腹熊貓","panda外送"] },
+  "cosmed":      { label:"康是美",         aliases:["康是美","cosmed","康是美藥妝"] },
+  "watsons":     { label:"屈臣氏",         aliases:["屈臣氏","watsons","屈臣氏藥妝"] },
+  "nihon_yaku":  { label:"日藥本舖",       aliases:["日藥本舖","日藥"] },
+  "poya":        { label:"POYA寶雅",       aliases:["寶雅","poya","poya寶雅"] },
+  "momo":        { label:"momo購物網",     aliases:["momo","momo購物","富邦momo","momomall"] },
+  "pchome":      { label:"PChome",         aliases:["pchome","pchome24h","pc home"] },
+  "shopee":      { label:"蝦皮購物",       aliases:["蝦皮","shopee","shopee購物"] },
+  "yahoo_shop":  { label:"Yahoo購物中心",  aliases:["yahoo購物","yahoo購物中心"] },
+  "little_tree": { label:"小樹購",         aliases:["小樹購","小樹購物","小樹點購物"] },
+  "coupang":     { label:"Coupang酷澎",    aliases:["酷澎","coupang","쿠팡"] },
+  "taobao":      { label:"淘寶",           aliases:["淘寶","taobao","淘寶天貓","淘寶網"] },
+  "tmall":       { label:"天貓",           aliases:["天貓","tmall","天貓超市"] },
+  "iherb":       { label:"iHerb",          aliases:["iherb","艾赫"] },
+  "oliveyoung":  { label:"Olive Young",    aliases:["oliveyoung","olive young","韓國藥妝"] },
+  "books":       { label:"博客來",         aliases:["博客來","books.com.tw","博客來網路書店"] },
+  "netflix":     { label:"Netflix",        aliases:["netflix","網飛"] },
+  "disney":      { label:"Disney+",        aliases:["disney+","disney plus","迪士尼+","disney"] },
+  "spotify":     { label:"Spotify",        aliases:["spotify","聲田"] },
+  "youtube":     { label:"YouTube Premium",aliases:["youtube premium","yt premium","youtube"] },
+  "apple_media": { label:"Apple媒體服務",  aliases:["app store","apple music","icloud","apple tv+","itunes","apple arcade","apple media"] },
+  "google_play": { label:"Google Play",    aliases:["google play","play store","googleplay"] },
+  "hbomax":      { label:"Max",            aliases:["max","hbo max","max streaming","max影音"] },
+  "chatgpt":     { label:"ChatGPT",        aliases:["chatgpt","openai","gpt-4","chat gpt","gpt4"] },
+  "claude":      { label:"Claude",         aliases:["claude","claude ai","anthropic","anthropic claude"] },
+  "gemini":      { label:"Gemini",         aliases:["gemini","google gemini","bard"] },
+  "perplexity":  { label:"Perplexity",     aliases:["perplexity","perplexity ai"] },
+  "notion":      { label:"Notion",         aliases:["notion","notion筆記"] },
+  "canva":       { label:"Canva",          aliases:["canva","canva設計"] },
+  "cursor":      { label:"Cursor",         aliases:["cursor","cursor ide"] },
+  "gamma":       { label:"Gamma",          aliases:["gamma","gamma簡報"] },
+  "duolingo":    { label:"Duolingo",       aliases:["duolingo","多鄰國"] },
+  "steam":       { label:"Steam",          aliases:["steam","steam遊戲"] },
+  "playstation": { label:"PlayStation",    aliases:["ps5","ps4","psn","playstation","playstation store","ps plus","sony ps"] },
+  "nintendo":    { label:"Nintendo",       aliases:["nintendo","任天堂","nintendo switch","switch online"] },
+  "mycard":      { label:"MyCard",         aliases:["mycard","遊戲點數"] },
+  "gamania":     { label:"遊戲橘子",       aliases:["遊戲橘子","gamania","橘子"] },
+  "thsr":        { label:"台灣高鐵",       aliases:["台灣高鐵","高鐵","thsr","hsr","高速鐵路"] },
+  "tra":         { label:"台鐵",           aliases:["台鐵","台灣鐵路","tra","台鐵e購"] },
+  "uber_taxi":   { label:"Uber",           aliases:["uber","uber計程車","uber叫車"] },
+  "grab":        { label:"Grab",           aliases:["grab","grab計程車","grab叫車"] },
+  "yoxi":        { label:"yoxi",           aliases:["yoxi","台灣大車隊","55688"] },
+  "suica":       { label:"SUICA",          aliases:["suica","西瓜卡"] },
+  "pasmo":       { label:"PASMO",          aliases:["pasmo"] },
+  "icoca":       { label:"ICOCA",          aliases:["icoca"] },
+  "wowpass":     { label:"WOWPASS",        aliases:["wowpass","wowpass韓國"] },
+  "irent":       { label:"和運租車",       aliases:["和運租車","和運","irent","和運i-rent","i-rent"] },
+  "carplus":     { label:"格上租車",       aliases:["格上租車","格上","car plus"] },
+  "chailease":   { label:"中租租車",       aliases:["中租租車","中租"] },
+  "upower":      { label:"U-POWER",        aliases:["u-power","upower","u-power充電"] },
+  "evoasis":     { label:"EVOASIS",        aliases:["evoasis"] },
+  "dodor":       { label:"嘟嘟房",         aliases:["嘟嘟房","嘟嘟房停車","dodor"] },
+  "autopass":    { label:"Autopass車麻吉", aliases:["autopass","車麻吉"] },
+  "uspace":      { label:"USPACE",         aliases:["uspace","uspace停車"] },
+  "cpc":         { label:"台灣中油",       aliases:["台灣中油","中油","cpc","中油加油","中油直營","加油站","cpc油站"] },
+  "ci":          { label:"中華航空",       aliases:["中華航空","華航","china airlines","cal","ci"] },
+  "br":          { label:"長榮航空",       aliases:["長榮航空","長榮","eva air","eva","br"] },
+  "jx":          { label:"星宇航空",       aliases:["星宇航空","星宇","starlux","jx"] },
+  "it":          { label:"台灣虎航",       aliases:["台灣虎航","虎航","tigerair taiwan","it"] },
+  "cx":          { label:"國泰航空",       aliases:["國泰航空","cathay pacific","港龍","cx"] },
+  "jl":          { label:"日本航空",       aliases:["日本航空","日航","jal","japan airlines","jl"] },
+  "nh":          { label:"ANA全日空",      aliases:["全日空","ana","all nippon","nh"] },
+  "mm":          { label:"樂桃航空",       aliases:["樂桃航空","樂桃","peach aviation","mm"] },
+  "tr":          { label:"酷航",           aliases:["酷航","scoot","scoot航空","tr"] },
+  "jq":          { label:"捷星航空",       aliases:["捷星航空","jetstar","jetstar airways","jq"] },
+  "ak":          { label:"亞洲航空",       aliases:["亞洲航空","亞航","airasia","ak"] },
+  "sq":          { label:"新加坡航空",     aliases:["新加坡航空","新航","singapore airlines","sq"] },
+  "ke":          { label:"大韓航空",       aliases:["大韓航空","korean air","kal","ke"] },
+  "dl":          { label:"達美航空",       aliases:["達美航空","delta","delta airlines","dl"] },
+  "ua":          { label:"聯合航空",       aliases:["聯合航空","united airlines","ua"] },
+  "tk":          { label:"土耳其航空",     aliases:["土耳其航空","turkish airlines","thy","tk"] },
+  "qr":          { label:"卡達航空",       aliases:["卡達航空","qatar airways","qr"] },
+  "af":          { label:"法國航空",       aliases:["法國航空","air france","af"] },
+  "vj":          { label:"越捷航空",       aliases:["越捷航空","vietjet","vj"] },
+  "klook":       { label:"Klook",          aliases:["klook","klook旅遊","客路"] },
+  "kkday":       { label:"KKday",          aliases:["kkday","kkday旅遊"] },
+  "agoda":       { label:"Agoda",          aliases:["agoda","agoda訂房"] },
+  "airbnb":      { label:"Airbnb",         aliases:["airbnb","airbnb民宿","air bnb"] },
+  "booking":     { label:"Booking.com",    aliases:["booking","booking訂房","booking.com"] },
+  "trip":        { label:"Trip.com",       aliases:["trip.com","ctrip","攜程","trip"] },
+  "eztravel":    { label:"易遊網",         aliases:["易遊網","eztravel","ezfly","e-travel"] },
+  "lion":        { label:"雄獅旅遊",       aliases:["雄獅旅遊","雄獅","lion travel"] },
+  "cola":        { label:"可樂旅遊",       aliases:["可樂旅遊","可樂","cola tour"] },
+  "seashine":    { label:"東南旅遊",       aliases:["東南旅遊","東南","seashine"] },
+  "wufuh":       { label:"五福旅遊",       aliases:["五福旅遊","五福"] },
+  "regent":      { label:"晶華酒店",       aliases:["晶華酒店","晶華","regent taipei","晶英","晶英酒店","捷絲旅","just sleep"] },
+  "lemeriden":   { label:"寒舍艾美",       aliases:["寒舍艾美","艾美","le meridien","寒居"] },
+  "hyatt_tp":    { label:"台北君悅",       aliases:["台北君悅","君悅","grand hyatt taipei","hyatt","hyatt台北"] },
+  "sheraton_tp": { label:"台北喜來登",     aliases:["台北喜來登","喜來登","sheraton","sheraton taipei"] },
+  "intercont_kh":{ label:"高雄洲際酒店",  aliases:["高雄洲際酒店","洲際","洲際酒店","intercontinental","intercontinental高雄"] },
+  "intercont_tc":{ label:"台中勤美洲際",  aliases:["台中勤美洲際","台中洲際","勤美洲際","勤美"] },
+  "granvia":     { label:"雲朗觀光",       aliases:["雲朗觀光","雲朗","君品酒店","君品","雲品","翰品","兆品","l'de chine"] },
+  "royal":       { label:"老爺酒店",       aliases:["老爺酒店","老爺","hotel royal","礁溪老爺","關子嶺老爺"] },
+  "howard":      { label:"福華大飯店",     aliases:["福華大飯店","福華","howard hotel","howard plaza"] },
+  "hilai":       { label:"漢來大飯店",     aliases:["漢來大飯店","漢來","grand hilai","漢來海港"] },
+  "mu_hotel":    { label:"寒沐酒店",       aliases:["寒沐酒店","寒沐","礁溪寒沐","mu hotel"] },
+  "lakeshore":   { label:"煙波大飯店",     aliases:["煙波大飯店","煙波","lakeshore"] },
+  "westin_tp":   { label:"六福皇宮",       aliases:["六福皇宮","威斯汀","westin","westin taipei"] },
+  "ambassador":  { label:"國賓大飯店",     aliases:["國賓大飯店","國賓","ambassador","ambassador hotel"] },
+  "marriott_tp": { label:"台北萬豪",       aliases:["台北萬豪","台北萬豪酒店","marriott","marriott taipei"] },
+  "tixcraft":    { label:"拓元售票",       aliases:["拓元售票","拓元","tixcraft"] },
+  "kktix":       { label:"KKTIX",          aliases:["kktix","kk tix"] },
+  "ticket_era":  { label:"年代售票",       aliases:["年代售票","年代票務","ticket.com"] },
+  "kham":        { label:"寬宏售票",       aliases:["寬宏售票","寬宏","kham"] },
+  "opentix":     { label:"OPENTIX",        aliases:["opentix","兩廳院","國家劇院"] },
+  "funnow":      { label:"FunNow",         aliases:["funnow","放鬧"] },
+  "cashbox":     { label:"錢櫃KTV",        aliases:["錢櫃KTV","錢櫃","cashbox ktv","cash box"] },
+  "holiday_ktv": { label:"好樂迪KTV",      aliases:["好樂迪KTV","好樂迪","holiday ktv"] },
+  "oncor":       { label:"ONCOR",          aliases:["oncor","oncor ktv","響大廳"] },
+  "singgo":      { label:"Sing!Go",        aliases:["sing!go","singgo","sing go","聚唱"] },
+  "warm_ktv":    { label:"享溫馨KTV",      aliases:["享溫馨KTV","享溫馨"] },
+  "star_ktv":    { label:"星聚點KTV",      aliases:["星聚點KTV","星聚點"] },
+  "tdr":         { label:"東京迪士尼",     aliases:["東京迪士尼","東迪","tdr","tokyo disneyland","tokyo disneysea","tokyo disney"] },
+  "usj":         { label:"大阪環球影城",   aliases:["大阪環球影城","usj","universal studios japan","環球影城大阪"] },
+  "legoland":    { label:"名古屋樂高樂園", aliases:["名古屋樂高樂園","legoland","legoland nagoya"] },
+  "pay_ts":      { label:"台新Pay",        aliases:["台新pay","taishinpay","taishin pay","台新 pay"] },
+  "pay_line":    { label:"LINE Pay",       aliases:["line pay","linepay","line支付","line錢包"] },
+  "pay_px":      { label:"全支付",         aliases:["全支付","pxpay","px pay","pxpayplus"] },
+  "pay_fami":    { label:"FamiPay",        aliases:["famipay","全家pay","全家famipay"] },
+  "pay_tw":      { label:"台灣Pay",        aliases:["台灣pay","taiwanpay","twqr"] },
+};
 
-const FRESH_DATA = {
+const DEFAULT_DATA = {
+  version: "2026H1",
   myLevel: "2",
   cards: [
     {
-      id: "richart",
-      name: "台新 Richart 卡",
-      issuer: "台新銀行 · 台新Point",
-      badgeText: "台新",
-      badgeClass: "b-ts",
-      enabled: true,
-      levelConditions: { "1": "基本未任務", "2": "Richart自動扣繳/App繳費任務(3.3%)", "3": "國泰財管VIP(300萬)" },
+      id: "richart", name: "台新 Richart 卡", issuer: "台新銀行", enabled: true,
+      badgeText: "台新", badgeClass: "b-ts", rewardType: "台新Point",
+      rewardNote: "1點=1元，可折抵消費，無上限",
+      levelConditions: {
+        "1": "持有台新卡（未設定自動扣繳）",
+        "2": "設定台新帳戶自動扣繳信用卡款",
+        "3": "同 Lv.2（台新無 Lv.3）"
+      },
       plans: [
-        { id: "pay", name: "Pay著刷", keywords: ["台新pay", "linepay", "台灣pay", "line pay"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.038 } } },
-        { id: "haoxiangshua", name: "好饗刷", keywords: ["王品瘋Pay", "Uber Eats", "Foodpanda", "台北君悅酒店", "晶華國際酒店", "FunNow", "錢櫃KTV"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } },
-        { id: "tiantianshua", name: "天天刷", keywords: ["7-11", "全家", "家樂福"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } },
-        { id: "shuchuashua", name: "數趣刷", keywords: ["ChatGPT"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } },
-        { id: "wanlvshua", name: "玩旅刷", keywords: ["日本"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } }
+        {
+          id:"pay", name:"Pay著刷", desc:"台新Pay 3.8% ／ LINE Pay 2.3% ／ 台灣Pay 3.8%",
+          storeIds:["pay_ts","pay_line","pay_tw","pay_px","pay_fami"],
+          levels:{ "1":{rate:0.013,note:"Lv1：1.3%"}, "2":{rate:0.038,note:"台新Pay/台灣Pay 3.8%；LINE Pay 2.3%，無上限"}, "3":{rate:0.038,note:"同 Lv.2"} }
+        },
+        {
+          id:"tiantianshua", name:"天天刷", desc:"超商、量販、超市、加油、交通、停車、藥妝",
+          storeIds:["seven","familymart","hilife","okmart","pxmart","carrefour","lopia","costco","topmart","donki","cpc","upower","evoasis","dodor","autopass","uspace","thsr","tra","uber_taxi","grab","yoxi","irent","carplus","chailease","cosmed","watsons","nihon_yaku","poya"],
+          levels:{ "1":{rate:0.013,note:"Lv1：1.3%"}, "2":{rate:0.033,note:"天天刷 3.3% 無上限；7-11/全家需使用台新Pay"}, "3":{rate:0.033,note:"同 Lv.2"} }
+        },
+        {
+          id:"dashua", name:"大筆刷", desc:"百貨、購物中心、3C、時尚居家",
+          storeIds:["skm","sogo","feds","breeze","taipei101","att","qsquare","miramar","takashimaya","mitsui","lalaport","gloria","hanshin","dreammall","umall","citylink","uni_time","bellavita","eslite","zhongyou","noke","syntrend","tsannkuen","hsin_ya","uniqlo","zara","hm","tokyu_hands"],
+          levels:{ "1":{rate:0.013,note:"Lv1：1.3%"}, "2":{rate:0.033,note:"大筆刷 3.3% 無上限"}, "3":{rate:0.033,note:"同 Lv.2"} }
+        },
+        {
+          id:"haoxiangshua", name:"好饗刷", desc:"餐廳、外送、KTV、票務、指定連鎖飯店",
+          storeIds:["wangpin_pay","wangpin","ubereats","foodpanda","cashbox","holiday_ktv","oncor","singgo","warm_ktv","star_ktv","tixcraft","kktix","ticket_era","kham","opentix","funnow","regent","lemeriden","hyatt_tp","sheraton_tp","intercont_kh","intercont_tc","granvia","royal","howard","hilai","mu_hotel","lakeshore","westin_tp","ambassador","marriott_tp","mcdonalds","starbucks","85c","louisa","cama","50lan","kfc","burgerking","mos","bafang","laya","magu"],
+          levels:{ "1":{rate:0.013,note:"Lv1：1.3%"}, "2":{rate:0.033,note:"好饗刷 3.3% 無上限"}, "3":{rate:0.033,note:"同 Lv.2"} }
+        },
+        {
+          id:"shuchuashua", name:"數趣刷", desc:"網購、串流影音、AI工具、遊戲",
+          storeIds:["momo","pchome","shopee","yahoo_shop","little_tree","books","coupang","taobao","tmall","iherb","oliveyoung","netflix","disney","spotify","youtube","apple_media","google_play","hbomax","steam","playstation","nintendo","mycard","gamania","chatgpt","claude","gemini","perplexity","notion","canva","cursor","gamma","duolingo","ikea"],
+          levels:{ "1":{rate:0.013,note:"Lv1：1.3%"}, "2":{rate:0.033,note:"數趣刷 3.3% 無上限"}, "3":{rate:0.033,note:"同 Lv.2"} }
+        },
+        {
+          id:"wanlvshua", name:"玩旅刷", desc:"機票、旅行社、訂房平台、交通卡、海外消費",
+          storeIds:["ci","br","jx","it","cx","jl","nh","mm","tr","jq","ak","sq","ke","dl","ua","tk","qr","af","vj","eztravel","lion","cola","seashine","wufuh","klook","kkday","agoda","airbnb","booking","trip","suica","pasmo","icoca","wowpass","irent","carplus","chailease","uber_taxi","grab","yoxi"],
+          levels:{ "1":{rate:0.013,note:"Lv1：1.3%"}, "2":{rate:0.033,note:"玩旅刷 3.3% 無上限"}, "3":{rate:0.033,note:"同 Lv.2"} }
+        },
+        {
+          id:"holiday", name:"假日刷", desc:"週六日不限通路 2%",
+          storeIds:[], sceneTrigger:"weekend_note",
+          levels:{ "1":{rate:0.013,note:"Lv1：1.3%"}, "2":{rate:0.02,note:"假日刷（週六日）2% 無上限，不限通路"}, "3":{rate:0.02,note:"同 Lv.2"} }
+        }
       ],
-      baseRate: 0.003
+      baseRate: 0.003, baseNote: "一般消費 0.3% 回饋"
     },
     {
-      id: "cube",
-      name: "國泰 CUBE 卡",
-      issuer: "國泰世華 · 小樹點",
-      badgeText: "國泰",
-      badgeClass: "b-ct",
-      enabled: true,
-      levelConditions: { "1": "基本未任務", "2": "CUBE App任務已完成", "3": "國泰財管VIP(300萬)" },
+      id: "cube", name: "國泰 CUBE 卡", issuer: "國泰世華", enabled: true,
+      badgeText: "國泰", badgeClass: "b-ct", rewardType: "小樹點",
+      rewardNote: "1點=1元，可折抵或兌哩程，無上限",
+      levelConditions: {
+        "1": "一般卡友（未完成繳費任務）",
+        "2": "用 CUBE App 繳卡費 或 設定國泰帳戶自動扣繳",
+        "3": "財管 VIP（國泰往來資產≥300萬）"
+      },
       plans: [
-        { id: "digital", name: "玩數位", keywords: ["ChatGPT"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.03 } } },
-        { id: "dining", name: "樂饗購", keywords: ["王品瘋Pay", "Uber Eats", "FunNow", "錢櫃KTV", "晶華國際酒店", "台北君悅酒店"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.03 } } },
-        { id: "select", name: "集精選", keywords: ["7-11", "全家", "家樂福"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.02 } } }
+        {
+          id:"digital", name:"玩數位", desc:"串流影音、網購平台、AI工具、遊戲",
+          storeIds:["chatgpt","claude","gemini","perplexity","notion","canva","cursor","gamma","duolingo","apple_media","google_play","netflix","disney","spotify","youtube","hbomax","momo","pchome","shopee","little_tree","coupang","taobao","tmall","steam","playstation","nintendo","mycard","gamania"],
+          levels:{ "1":{rate:0.02,note:"2% 無上限"}, "2":{rate:0.03,note:"3% 無上限（需完成繳費任務）"}, "3":{rate:0.033,note:"3.3% 無上限（財管VIP）"} }
+        },
+        {
+          id:"dining", name:"樂饗購", desc:"百貨、國內餐廳、外送、藥妝",
+          storeIds:["skm","sogo","feds","breeze","taipei101","att","qsquare","miramar","takashimaya","mitsui","lalaport","gloria","hanshin","dreammall","umall","citylink","uni_time","bellavita","eslite","zhongyou","noke","ubereats","foodpanda","mcdonalds","starbucks","85c","louisa","cama","50lan","laya","magu","bafang","kfc","burgerking","mos","wangpin","cosmed","watsons","nihon_yaku","poya"],
+          levels:{ "1":{rate:0.02,note:"2% 無上限"}, "2":{rate:0.03,note:"3% 無上限"}, "3":{rate:0.033,note:"3.3% 無上限"} }
+        },
+        {
+          id:"travel", name:"趣旅行", desc:"海外實體、機票、旅行社、訂房、交通卡、票務",
+          storeIds:["ci","br","jx","it","cx","jl","nh","mm","tr","jq","ak","sq","ke","dl","ua","tk","qr","af","vj","eztravel","lion","cola","seashine","wufuh","klook","kkday","agoda","airbnb","booking","trip","suica","pasmo","icoca","wowpass","thsr","uber_taxi","grab","yoxi","irent","carplus","chailease","tdr","usj","legoland","funnow","tixcraft","kktix","ticket_era","kham","opentix"],
+          levels:{ "1":{rate:0.02,note:"2% 無上限（海外實體/指定通路）"}, "2":{rate:0.03,note:"3% 無上限"}, "3":{rate:0.033,note:"3.3% 無上限"} }
+        },
+        {
+          id:"select", name:"集精選", desc:"超商、超市、量販、高鐵、加油、IKEA、充電停車",
+          storeIds:["seven","familymart","pxmart","carrefour","lopia","costco","thsr","mitsui","cpc","ikea","upower","evoasis","autopass","uspace"],
+          levels:{ "1":{rate:0.02,note:"固定 2%（集精選不受等級加碼）"}, "2":{rate:0.02,note:"固定 2%（集精選不受等級加碼）"}, "3":{rate:0.02,note:"固定 2%"} }
+        },
+        {
+          id:"birthday", name:"慶生月", desc:"壽星當月限定，部分通路最高 10%",
+          storeIds:["skm","ubereats","klook","funnow","tdr","usj","legoland","cashbox","holiday_ktv","star_ktv","warm_ktv","playstation","nintendo"],
+          sceneTrigger:"birthday",
+          levels:{ "1":{rate:0.10,note:"壽星當月：指定通路 5%~10% 回饋"}, "2":{rate:0.10,note:"壽星當月：指定通路 5%~10% 回饋"}, "3":{rate:0.10,note:"壽星當月：指定通路 5%~10% 回饋"} }
+        }
       ],
-      baseRate: 0.003
+      baseRate: 0.003, baseNote: "一般消費 0.3%"
     }
   ]
 };
 
-let DATA = JSON.parse(JSON.stringify(FRESH_DATA));
+// ── State ──
+let DATA = JSON.parse(localStorage.getItem('cardData3') || 'null') || JSON.parse(JSON.stringify(DEFAULT_DATA));
 let lastQuery = '';
-let activeAcIndex = -1;
+let lastResolvedId = null;
+let suggestIdx = -1;
+let currentSuggestions = [];
+let splitCards = [];
 
-function goPage(p){
-  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+function save() { localStorage.setItem('cardData3', JSON.stringify(DATA)); }
+
+// ── ID 解析 ──
+function resolveToId(input) {
+  const lower = input.toLowerCase().trim();
+  if (!lower) return null;
+  for (const [id, store] of Object.entries(STORES)) {
+    if (store.label.toLowerCase() === lower) return id;
+    if (store.aliases.some(a => a.toLowerCase() === lower)) return id;
+  }
+  for (const [id, store] of Object.entries(STORES)) {
+    if (store.label.toLowerCase().includes(lower)) return id;
+    if (store.aliases.some(a => a.toLowerCase().includes(lower))) return id;
+  }
+  for (const [id, store] of Object.entries(STORES)) {
+    if (lower.includes(store.label.toLowerCase())) return id;
+    if (store.aliases.some(a => lower.includes(a.toLowerCase()))) return id;
+  }
+  return null;
+}
+
+function getStoreLabel(id) { return STORES[id] ? STORES[id].label : id; }
+
+// ── Autocomplete ──
+function getSuggestions(input) {
+  const lower = input.toLowerCase().trim();
+  if (!lower) return [];
+  const seen = new Set(), results = [];
+  for (const [id, store] of Object.entries(STORES)) {
+    const hit = store.label.toLowerCase().includes(lower) ||
+                lower.includes(store.label.toLowerCase()) ||
+                store.aliases.some(a => a.toLowerCase().includes(lower) || lower.includes(a.toLowerCase()));
+    if (hit && !seen.has(id)) { seen.add(id); results.push(id); }
+  }
+  const lv = DATA.myLevel;
+  return results.slice(0, 10).map(id => {
+    let bestRate = 0, bestPlan = '';
+    for (const card of DATA.cards.filter(c => c.enabled)) {
+      const res = computeCardResult(card, id, 'none', lv, false);
+      if (res.rate > bestRate) { bestRate = res.rate; bestPlan = res.plan ? res.plan.name : '一般'; }
+    }
+    return { id, label: STORES[id].label, bestRate, bestPlan };
+  });
+}
+
+function handleInput() {
+  currentSuggestions = getSuggestions(document.getElementById('storeInput').value);
+  suggestIdx = -1;
+  renderSuggestList();
+}
+
+function renderSuggestList() {
+  const el = document.getElementById('suggestList');
+  if (!currentSuggestions.length) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  el.innerHTML = currentSuggestions.map((s, i) =>
+    `<div class="suggest-item${i === suggestIdx ? ' active' : ''}" onmousedown="pickSuggest(${i})">
+      <span class="suggest-name">${escHtml(s.label)}</span>
+      <span class="suggest-plan">${escHtml(s.bestPlan)}</span>
+      <span class="suggest-rate">${pct(s.bestRate)}</span>
+    </div>`
+  ).join('');
+}
+
+function pickSuggest(i) {
+  const s = currentSuggestions[i];
+  document.getElementById('storeInput').value = s.label;
+  lastResolvedId = s.id;
+  lastQuery = s.label;
+  hideSuggest();
+  refreshResults();
+}
+
+function hideSuggest() {
+  const el = document.getElementById('suggestList');
+  if (el) el.style.display = 'none';
+}
+
+function handleKey(e) {
+  if (!currentSuggestions.length) {
+    if (e.key === 'Enter') { e.preventDefault(); doQuery(); }
+    return;
+  }
+  if (e.key === 'ArrowDown') { e.preventDefault(); suggestIdx = Math.min(suggestIdx+1, currentSuggestions.length-1); renderSuggestList(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); suggestIdx = Math.max(suggestIdx-1, -1); renderSuggestList(); }
+  else if (e.key === 'Enter') { e.preventDefault(); if (suggestIdx >= 0) pickSuggest(suggestIdx); else { hideSuggest(); doQuery(); } }
+  else if (e.key === 'Escape') hideSuggest();
+}
+
+// ── 核心比對 ──
+function computeCardResult(card, storeId, payMode, lv, isBirthday) {
+  let bestPlan = null, bestRate = card.baseRate;
+
+  if (isBirthday && card.id === 'cube') {
+    const bPlan = card.plans.find(p => p.id === 'birthday');
+    if (bPlan && bPlan.storeIds.includes(storeId))
+      return { card, plan: bPlan, rate: bPlan.levels[lv].rate, lvData: bPlan.levels[lv] };
+  }
+
+  if (card.id === 'richart') {
+    const payPlan = card.plans.find(p => p.id === 'pay');
+    const PAY_IDS = ['pay_ts','pay_line','pay_tw','pay_px','pay_fami'];
+    const isPayStoreQuery = PAY_IDS.includes(storeId);
+    let effectiveMode = payMode;
+    if (isPayStoreQuery && payMode === 'none') {
+      if (storeId === 'pay_line') effectiveMode = 'linepay';
+      else if (storeId === 'pay_tw') effectiveMode = 'taiwanpay';
+      else effectiveMode = 'taishinpay';
+    }
+    let payRate = 0;
+    if (payPlan) {
+      if (effectiveMode === 'taishinpay' || effectiveMode === 'taiwanpay') payRate = payPlan.levels[lv].rate;
+      else if (effectiveMode === 'linepay') payRate = lv === '1' ? 0.013 : 0.023;
+    }
+    if (payRate > bestRate) { bestRate = payRate; bestPlan = payPlan; }
+  }
+
+  if (card.id === 'cube' && payMode === 'pxpay') {
+    const selectPlan = card.plans.find(p => p.id === 'select');
+    if (selectPlan) { const r = selectPlan.levels[lv].rate; if (r > bestRate) { bestRate = r; bestPlan = selectPlan; } }
+  }
+
+  for (const plan of card.plans) {
+    if (plan.id === 'pay' || plan.sceneTrigger) continue;
+    if (!plan.storeIds.includes(storeId)) continue;
+    const r = plan.levels[lv].rate;
+    if (r > bestRate) { bestRate = r; bestPlan = plan; }
+  }
+
+  return { card, plan: bestPlan, rate: bestRate, lvData: bestPlan ? bestPlan.levels[lv] : null };
+}
+
+// ── Query ──
+function doQuery() {
+  hideSuggest();
+  const raw = document.getElementById('storeInput').value.trim();
+  if (!raw) { document.getElementById('results').innerHTML = ''; return; }
+  const id = resolveToId(raw);
+  if (id) {
+    lastResolvedId = id; lastQuery = STORES[id].label;
+    document.getElementById('storeInput').value = STORES[id].label;
+  } else {
+    lastResolvedId = null; lastQuery = raw;
+  }
+  refreshResults();
+}
+
+function refreshResults() {
+  if (!lastQuery) return;
+  const lv = DATA.myLevel;
+  const amount = parseFloat(document.getElementById('amountInput').value) || 0;
+  const payMode = document.getElementById('paySelect').value;
+  const isBirthday = document.getElementById('birthdayToggle').checked;
+  const activeCards = DATA.cards.filter(c => c.enabled);
+  const splitBox = document.getElementById('splitBox');
+
+  if (!activeCards.length) {
+    document.getElementById('results').innerHTML = '<div class="no-r">沒有啟用的卡片</div>';
+    splitBox.style.display = 'none'; return;
+  }
+  if (!lastResolvedId) {
+    document.getElementById('results').innerHTML = `<div class="no-r">找不到「${escHtml(lastQuery)}」的對應商家，請嘗試其他關鍵字。</div>`;
+    splitBox.style.display = 'none'; return;
+  }
+
+  const results = activeCards.map(card => {
+    const cr = computeCardResult(card, lastResolvedId, payMode, lv, isBirthday);
+    return { ...cr, cashback: amount > 0 ? amount * cr.rate : null };
+  }).sort((a,b) => b.rate - a.rate);
+
+  const payLabels = { none:'實體卡/條碼', taishinpay:'台新Pay', linepay:'LINE Pay', applepay:'Apple Pay', googlepay:'Google Pay', taiwanpay:'台灣Pay', pxpay:'全支付', famipay:'FamiPay' };
+
+  let html = `<div class="r-header">
+    <span class="r-title">比對結果</span>
+    <span class="r-query">${escHtml(lastQuery)}</span>
+    <span class="r-scene">${escHtml(payLabels[payMode])} · Lv.${lv}${isBirthday?' · 🎂':''}</span>
+  </div>`;
+
+  results.forEach((r, idx) => { html += renderRC(r, idx===0, amount, lv); });
+  document.getElementById('results').innerHTML = html;
+
+  if (results.length >= 2 && amount > 0) {
+    splitBox.style.display = 'block'; initSplit(results);
+  } else {
+    splitBox.style.display = 'none';
+  }
+}
+
+function renderRC(r, isBest, amount, lv) {
+  const {card, plan, rate, cashback, lvData} = r;
+  const notes = [];
+  if (lvData?.note) notes.push(lvData.note);
+  notes.push(card.rewardNote);
+  const planName = plan ? plan.name : '一般消費';
+  return `<div class="rc${isBest?' best':''}">
+    <div class="rc-top">
+      <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
+      <div class="rc-info">
+        <div class="rc-name">${escHtml(card.name)}</div>
+        <div class="rc-sub">${escHtml(card.issuer)} · ${escHtml(card.rewardType)} · Lv.${lv}</div>
+      </div>
+      ${isBest?'<div class="rc-best-tag">最高回饋</div>':''}
+    </div>
+    <div class="rc-stats">
+      <div class="stat"><div class="sv sm">${escHtml(planName)}</div><div class="sl">切換方案</div></div>
+      <div class="stat"><div class="sv blue">${pct(rate)}</div><div class="sl">回饋率</div></div>
+      <div class="stat"><div class="sv green">${amount>0?'$'+fmt(cashback):'—'}</div><div class="sl">預估回饋</div></div>
+    </div>
+    ${!plan
+      ? `<div class="rc-nomatch">此通路不在指定方案內，適用一般消費 0.3%。</div>`
+      : `<div class="rc-plan">💡 請在 App 切換至【<strong>${escHtml(planName)}</strong>】｜${escHtml(card.levelConditions[lv])}</div>`
+    }
+    <div class="rc-notes">${notes.map(n=>`<span>${escHtml(n)}</span>`).join('')}</div>
+  </div>`;
+}
+
+// ── Split ──
+function initSplit(results) {
+  splitCards = results;
+  document.getElementById('splitLabelA').textContent = results[0].card.name;
+  document.getElementById('splitLabelB').textContent = results[1].card.name;
+  document.getElementById('splitA').value = '';
+  document.getElementById('splitB').value = '';
+  document.getElementById('splitResult').innerHTML = '';
+}
+
+function calcSplit() {
+  const a = parseFloat(document.getElementById('splitA').value) || 0;
+  const b = parseFloat(document.getElementById('splitB').value) || 0;
+  const ca = a * splitCards[0].rate, cb = b * splitCards[1].rate;
+  document.getElementById('splitResult').innerHTML =
+    `<strong>${escHtml(splitCards[0].card.name)}</strong> 刷 $${fmt(a)} → <span style="color:var(--green);font-weight:700">+$${fmt(ca)}</span><br>` +
+    `<strong>${escHtml(splitCards[1].card.name)}</strong> 刷 $${fmt(b)} → <span style="color:var(--green);font-weight:700">+$${fmt(cb)}</span><br>` +
+    `合計回饋：<span style="color:var(--blue);font-weight:700">$${fmt(ca+cb)}</span>`;
+}
+
+// ── Level / Page ──
+function renderLevelRow() {
+  const lv = DATA.myLevel;
+  const descs = {'1':'未設定自動扣繳','2':'自動扣繳 / App繳費','3':'國泰財管VIP(300萬)'};
+  document.getElementById('lvRow').innerHTML = ['1','2','3'].map(n =>
+    `<button class="lv-btn${lv===n?' active':''}" onclick="setLevel('${n}')">
+      <span class="lv-n">Lv.${n}</span><span class="lv-d">${descs[n]}</span>
+    </button>`
+  ).join('');
+}
+
+function setLevel(lv) { DATA.myLevel = lv; save(); renderLevelRow(); if(lastResolvedId) refreshResults(); }
+
+function renderQuickTags() {
+  const tags = [
+    {id:'seven',label:'7-11'},{id:'familymart',label:'全家'},{id:'carrefour',label:'家樂福'},
+    {id:'pay_px',label:'全支付'},{id:'pay_line',label:'LINE Pay'},{id:'pay_ts',label:'台新Pay'},
+    {id:'pay_tw',label:'台灣Pay'},{id:'momo',label:'momo'},{id:'shopee',label:'蝦皮'},{id:'netflix',label:'Netflix'}
+  ];
+  document.getElementById('quickTags').innerHTML = tags.map(t =>
+    `<span class="tag" onclick="fillTag('${t.id}','${escHtml(t.label)}')">${escHtml(t.label)}</span>`
+  ).join('');
+}
+
+function fillTag(id, label) {
+  document.getElementById('storeInput').value = label;
+  lastResolvedId = id; lastQuery = label;
+  hideSuggest(); refreshResults();
+}
+
+function goPage(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
   document.getElementById('pg-'+p).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active', ['q','rules','manage'][i]===p));
+  document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', ['q','rules','manage'][i]===p));
   if(p==='rules') renderRules();
   if(p==='manage') renderManage();
 }
 
-function renderLevelRow(){
-  let html = '';
-  ['1','2','3'].forEach(n=>{
-    const descs = {'1':'基本未任務','2':'Richart扣繳/App任務(3.3%)','3':'國泰財管VIP(300萬)'};
-    html += `<button class="lv-btn${DATA.myLevel===n?' active':''}" onclick="setLevel('${n}')">
-      <span class="lv-n">Lv.${n}</span>
-      <span class="lv-d">${descs[n]}</span>
-    </button>`;
-  });
-  document.getElementById('lvRow').innerHTML = html;
-}
-
-function setLevel(lv){ DATA.myLevel = lv; renderLevelRow(); if(lastQuery) refreshResults(); }
-
-function renderQuickTags(){
-  const tags = ['7-11', '全家', '家樂福', '全支付', 'LINE Pay', '台新Pay', '台灣pay'];
-  document.getElementById('quickTags').innerHTML = tags.map(t=>`<span class="tag" onclick="fillStore('${t}')">${t}</span>`).join('');
-}
-function fillStore(name){ document.getElementById('storeInput').value = name; hideAutocomplete(); doQuery(); }
-
-function onSearchInput() {
-  const val = document.getElementById('storeInput').value.trim().toLowerCase();
-  const box = document.getElementById('acBox');
-  if (!val) { box.style.display = 'none'; return; }
-  const matches = MASTER_STORES.filter(s => s.name.toLowerCase().includes(val) || s.sync.some(k => k.toLowerCase().includes(val)));
-  if (matches.length === 0) { box.style.display = 'none'; return; }
-  activeAcIndex = -1;
-  let html = '';
-  matches.slice(0, 6).forEach((m, idx) => {
-    html += `<div class="ac-item" id="acItem-${idx}" onclick="selectAcItem('${m.name}')"><span class="ac-name">${m.name}</span></div>`;
-  });
-  box.innerHTML = html; box.style.display = 'block';
-}
-function onSearchKeydown(e) {
-  const box = document.getElementById('acBox'); if (box.style.display === 'none') { if (e.key === 'Enter') doQuery(); return; }
-  const items = box.querySelectorAll('.ac-item');
-  if (e.key === 'ArrowDown') { e.preventDefault(); activeAcIndex = (activeAcIndex + 1) % items.length; updateAcSelection(items); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); activeAcIndex = (activeAcIndex - 1 + items.length) % items.length; updateAcSelection(items); }
-  else if (e.key === 'Enter') { e.preventDefault(); if (activeAcIndex >= 0) items[activeAcIndex].click(); else doQuery(); }
-}
-function updateAcSelection(items) { items.forEach((item, idx) => item.classList.toggle('active', idx === activeAcIndex)); }
-function selectAcItem(name) { document.getElementById('storeInput').value = name; hideAutocomplete(); doQuery(); }
-
-function normalizeKeyword(s){ return String(s || '').toLowerCase().replace(/\s+/g, '').trim(); }
-function hideAutocomplete() { document.getElementById('acBox').style.display = 'none'; }
-
-function doQuery(){
-  let inputEl = document.getElementById('storeInput'); let rawInput = inputEl.value.trim();
-  if(!rawInput){ document.getElementById('results').innerHTML=''; return; }
-  let queryLower = rawInput.toLowerCase(); let matchedFull = null;
-  for(const item of MASTER_STORES){ if(item.name.toLowerCase() === queryLower || item.sync.some(k => k.toLowerCase() === queryLower)){ matchedFull = item.name; break; } }
-  if (!matchedFull) { for(const item of MASTER_STORES){ if(item.name.toLowerCase().includes(queryLower) || item.sync.some(k => k.toLowerCase().includes(queryLower))){ matchedFull = item.name; break; } } }
-  lastQuery = matchedFull ? matchedFull : rawInput; if(matchedFull) inputEl.value = matchedFull;
-  hideAutocomplete(); refreshResults();
-}
-
-
-
-function computeCardResult(card, query, scene, lv, isBirthday, region){
-  const qLower = normalizeKeyword(query);
-  if(!card.enabled) return { card, plan: null, rate: 0, isWarning: false, customNote: "卡片已在管理頁中關閉" };
-
-  if(region === 'japan' || region === 'west' || region === 'foreign'){
-    if(card.id === 'cube'){
-      const cubeRateMap = { '1': 0.02, '2': 0.03, '3': 0.033 };
-      const rate = cubeRateMap[lv] || 0.03;
-      return { card, plan: { name: '趣旅行' }, rate, isWarning: false, customNote: `${region === 'japan' ? '日本' : region === 'west' ? '歐洲' : '海外其他'}請認明切換至【趣旅行】方案。` };
-    }
-    if(card.id === 'richart'){
-      const rate = 0.033;
-      return { card, plan: { name: '玩旅刷' }, rate, isWarning: false, customNote: `${region === 'japan' ? '日本' : region === 'west' ? '歐洲' : '海外其他'}請認明切換至【玩旅刷】方案。` };
-    }
-  }
-  const isPayHit = (s) => ['linepay','taishinpay','taiwanpay','pxpayplus'].includes(s) || qLower.includes('全支付') || qLower.includes('linepay') || qLower.includes('台新pay') || qLower.includes('台灣pay') || qLower.includes('twqr');
-
-  if(card.id === 'richart'){
-    const payPlan = card.plans.find(p => p.id === 'pay');
-    const payKeywords = ['台新pay','台新pay+','linepay','台灣pay','twqr','全家','711','7-11','新光三越','richartmart','康是美','ikea','net','神腦','燦坤','全國電子','麥當勞','美廉社','大樹藥局','lawson','biccamera','gs25','daiso'];
-    const payMatch = qLower.includes('台新pay') || qLower.includes('台新pay+') || qLower.includes('linepay') || qLower.includes('台灣pay') || qLower.includes('twqr') || payKeywords.some(k => qLower.includes(k));
-    if(isPayHit(scene) || payMatch){
-      const rate = scene === 'linepay' ? 0.023 : 0.038;
-      const note = scene === 'linepay' ? '2.3% 需使用 LINE Pay' : '3.8% 需使用台新Pay(TWQR、台灣Pay)';
-      return { card, plan: payPlan || { name: 'Pay著刷' }, rate, isWarning: false, customNote: note };
-    }
-    if(qLower.includes('ikea') || qLower.includes('宜家') || qLower.includes('全支付')){
-      const plan = card.plans.find(p => p.id === 'dashua') || card.plans.find(p => p.id === 'shuchuashua') || card.plans.find(p => p.id === 'pay');
-      if(plan){
-        const rate = plan.levels[lv] ? plan.levels[lv].rate : 0.033;
-        return { card, plan, rate, isWarning: false, customNote: `請認明切換至【${plan.name}】方案。` };
-      }
-    }
-  }
-
-  if(card.id === 'cube'){
-    if(scene === 'pxpayplus' || qLower.includes('全支付') || qLower.includes('pxpayplus')){
-      const plan = card.plans.find(p => p.id === 'select');
-      const rate = plan ? (plan.levels[lv] ? plan.levels[lv].rate : 0.02) : 0.02;
-      return { card, plan, rate, isWarning: false, customNote: '需使用全支付' };
-    }
-    if(scene === 'linepay' || qLower.includes('line pay') || qLower.includes('linepay')){
-      return { card, plan: null, rate: 0.003, isWarning: false, customNote: '無方案' };
-    }
-    if(scene === 'taishinpay' || scene === 'taiwanpay'){
-      const plan = card.plans.find(p => p.id === 'select');
-      const rate = plan ? (plan.levels[lv] ? plan.levels[lv].rate : 0.02) : 0.02;
-      return { card, plan, rate, isWarning: false, customNote: plan ? (plan.name === '全支付' ? '需使用全支付' : plan.name === 'LINE Pay' ? '需使用LINE Pay' : plan.name === 'Pay著刷' ? '3.8% 需使用台新Pay(TWQR、台灣Pay)' : `請認明切換至【${plan.name}】方案。`) : '請確認切換或認明：【一般消費】' };
-    }
-  }
-
-  if(isBirthday && card.id === 'cube'){
-    const bPlan = card.plans.find(p => p.id === 'birthday');
-    if(bPlan && bPlan.keywords.some(kw => qLower.includes(normalizeKeyword(kw)) || normalizeKeyword(kw).includes(qLower))){
-      return { card, plan: bPlan, rate: bPlan.levels[lv].rate, isWarning: false, customNote: `請認明切換至【${bPlan.name}】方案。` };
-    }
-  }
-
-  for(const plan of card.plans){
-    if(plan.sceneTrigger) continue;
-    const isMatch = plan.keywords.some(kw => {
-      const kwL = normalizeKeyword(kw);
-      return qLower.includes(kwL) || kwL.includes(qLower);
-    });
-    if(isMatch){
-      const lvEntry = plan.levels[lv] || plan.levels['2'];
-      const rate = lvEntry ? lvEntry.rate : card.baseRate;
-      return { card, plan, rate, isWarning: false, customNote: `請認明切換至【${plan.name}】方案。` };
-    }
-  }
-
-  return { card, plan: null, rate: card.baseRate, isWarning: false, customNote: "請確認切換或認明：【一般消費】" };
-}
-function refreshResults(){
-  if(!lastQuery) return;
+function renderRules() {
   const lv = DATA.myLevel;
-  const amount = parseFloat(document.getElementById('amountInput').value)||0;
-  const scene = document.getElementById('sceneSelect').value;
-  const isBirthday = document.getElementById('birthdayToggle').checked;
-  const region = document.getElementById('regionSel').value;
-
-  const results = DATA.cards.map(card=>{
-    return computeCardResult(card, lastQuery, scene, lv, isBirthday, region);
-  }).sort((a,b)=>b.rate - a.rate);
-
-  let sceneTxt = "直接刷卡/感應";
-  if(scene==='applepay') sceneTxt="Apple Pay";
-  if(scene==='linepay') sceneTxt="LINE Pay";
-  if(scene==='taishinpay') sceneTxt="台新Pay";
-  if(scene==='pxpayplus') sceneTxt="全支付";
-  if(scene==='taiwanpay') sceneTxt="台灣pay";
-
-  let html = `<div class="r-header">
-    <span class="r-title">最佳方案比對</span>
-    <span class="r-query">${lastQuery}</span>
-    <span class="r-title" style="margin-left:5px;">· ${sceneTxt} · 等級 Lv.${lv}</span>
-  </div>`;
-
-  results.forEach((r, idx)=>{
-    const {card, plan, rate, isWarning, customNote} = r;
-    const cashback = amount * rate;
-    
-    let condTxt = "";
-    if(card.id==='richart') condTxt = "（當前條件：Richart自動扣繳中）";
-    if(card.id==='cube') condTxt = "（當前條件：CUBE App任務已完成）";
-
-    html += `<div class="rc${idx===0 && rate>0 ?' best':''}">
-      <div class="rc-top">
-        <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
-        <div class="rc-info">
-          <div class="rc-name">${card.name}</div>
-          <div class="rc-sub">${card.issuer} · Lv.${lv}</div>
-        </div>
-        ${idx===0 && rate>0 ?'<div class="rc-best-tag">最高回饋</div>':''}
+  document.getElementById('rulesContent').innerHTML = DATA.cards.map(card =>
+    `<div class="rule-box">
+      <div class="rule-box-hd">
+        <div class="rc-badge ${card.badgeClass}" style="width:24px;height:24px;font-size:9px">${card.badgeText}</div>
+        ${escHtml(card.name)} — Lv.${lv}
       </div>
-      <div class="rc-stats">
-        <div class="stat"><div class="sv" style="font-size:13px">${plan ? plan.name : '一般消費'}</div><div class="sl">適用方案</div></div>
-        <div class="stat"><div class="sv ${isWarning || rate===0 ?'red':'blue'}">${(rate*100).toFixed(1).replace(/\.0$/,'')}%</div><div class="sl">回饋率</div></div>
-        <div class="stat"><div class="sv green">${amount>0 && rate>0 ?'$'+Math.round(cashback):'—'}</div><div class="sl">預估回饋</div></div>
+      <table class="rule-table">
+        <tr><th>方案</th><th>主要通路（部分列舉）</th><th>回饋率</th></tr>
+        ${card.plans.map(p => {
+          const labels = (p.storeIds||[]).slice(0,12).map(id=>getStoreLabel(id));
+          return `<tr>
+            <td><strong>${escHtml(p.name)}</strong></td>
+            <td class="stores">${labels.join('、')}${(p.storeIds||[]).length>12?'…':''}</td>
+            <td class="rate">${pct(p.levels[lv].rate)}</td>
+          </tr>`;
+        }).join('')}
+        <tr><td>一般消費</td><td class="stores">未在上方方案中的其他通路</td><td class="rate">${pct(card.baseRate)}</td></tr>
+      </table>
+      <div style="padding:8px 14px;font-size:11px;color:var(--muted);border-top:1px solid var(--border)">
+        升等條件：${escHtml(card.levelConditions[lv])}
       </div>
-      <div class="rc-plan ${isWarning || rate===0 ?'warning':''}">💡 貼心提醒：${customNote} <span style="font-size:11px; color:var(--muted);">${condTxt}</span></div>
-    </div>`;
-  });
-
-  document.getElementById('results').innerHTML = html;
+    </div>`
+  ).join('');
 }
 
-// ── 規則頁：完整填入回饋權益與官方確認連結 ──
-function renderRules(){
-  let html = `
-    <div class="rule-card-sec">
-      <h3>💳 台新 Richart 卡 — Lv.2 核心權益</h3>
-      <div class="rule-meta"><strong>升級條件：</strong>設定 Richart 帳戶自動扣繳信用卡款（次期帳單後生效）</div>
-      <div class="rule-meta"><strong>回饋型態：</strong>台新Point（1點 = 1元，可直接折抵消費帳單）</div>
-      <div class="rule-links">
-        <strong>🔍 官方驗證：</strong>
-        <a href="https://www.taishinbank.com.tw/TSB/personal/credit/intro/overview/future/6e39b736-d735-11f0-b50f-0050568c09e3" target="_blank">台新權益公告連結</a> │ 
-        <a href="https://www.taishinbank.com.tw/TSB/personal/credit/intro/rights/notice/restricteditems/" target="_blank">台新不回饋項目條款</a>
-      </div>
-      
-      <table class="rule-table">
-        <thead>
-          <tr>
-            <th style="width:22%">方案項目</th>
-            <th style="width:15%">回饋率</th>
-            <th>適用核心通路範例</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Pay著刷</strong></td><td class="highlight-rate">3.8%</td><td>台新Pay、台灣Pay、LINE Pay (適用2.3%)、街口支付等綁定錢包管道</td></tr>
-          <tr><td><strong>天天刷</strong></td><td class="highlight-rate">3.3%</td><td>7-11、全家 (超商需綁台新Pay)、家樂福、全聯(全支付/指定條件)、交通、停車、藥妝</td></tr>
-          <tr><td><strong>好饗刷</strong></td><td class="highlight-rate">3.3%</td><td>全臺餐飲、王品瘋Pay、外送平台(Uber Eats/Foodpanda)、購票娛樂(拓元/KKTIX/FunNow)、指定連鎖飯店集團(晶華/君悅/煙波/老爺/寒舍系列)、連鎖KTV(錢櫃/好樂迪)</td></tr>
-          <tr><td><strong>數趣刷</strong></td><td class="highlight-rate">3.3%</td><td>網購平台(蝦皮/momo/酷澎/淘寶)、線上影音課程、AI訂閱(ChatGPT/Notion/Claude)、IKEA</td></tr>
-          <tr><td><strong>玩旅刷</strong></td><td class="highlight-rate">3.3%</td><td>海外消費(含實體與線上)、航空公司機票、國內外訂房平台(Klook/KKday/Agoda)、旅行社</td></tr>
-          <tr><td><strong>大筆刷</strong></td><td class="highlight-rate">3.3%</td><td>各大百貨商場(新光三越/SOGO/遠百/微風/101/三井Outlet/Lalaport)、3C賣場、時尚居家</td></tr>
-          <tr><td><strong>假日刷</strong></td><td class="highlight-rate">2.0%</td><td>週六、週日不限通路之國內一般消費</td></tr>
-          <tr><td><strong>一般消費</strong></td><td>0.3%</td><td>其他未列入加碼名單之國內常規一般消費通路</td></tr>
-        </tbody>
-      </table>
-
-      <div class="rule-notice-panel">
-        <strong>⚠️ 點點簽地雷與繞過防踩指南：</strong><br>
-        當你在<strong>麥當勞、肯德基、摩斯漢堡、連鎖停車場</strong>使用實體卡感應或 Apple Pay/Google Pay 時，系統會強制接入「聯合小額支付平台」，台新官方列為<strong>0%不回饋</strong>。請務必改用<strong>台新 Pay (3.8%)</strong> 或 <strong>LINE Pay (2.3%)</strong> 以專屬錢包通道繞過限制。
-      </div>
-    </div>
-
-    <div class="rule-card-sec">
-      <h3>💳 國泰 CUBE 卡 — Lv.2 核心權益</h3>
-      <div class="rule-meta"><strong>升級條件：</strong>每月登入 CUBE App 繳卡費 或 設定國泰帳戶自動扣繳</div>
-      <div class="rule-meta"><strong>回饋型態：</strong>小樹點（1點 = 1元，可折抵消費或自由兌換航空哩程）</div>
-      <div class="rule-links">
-        <strong>🔍 官方驗證：</strong>
-        <a href="https://www.cathay-cube.com.tw/cathaybk/personal/product/credit-card/cards/cube-list" target="_blank">國泰 CUBE 官方權益指南連結</a>
-      </div>
-
-      <table class="rule-table">
-        <thead>
-          <tr>
-            <th style="width:22%">切換方案</th>
-            <th style="width:15%">回饋率</th>
-            <th>適用核心通路範例（需每日手動自行於 App 切換）</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>玩數位</strong></td><td class="highlight-rate">3.0%</td><td>網購(momo/PChome/蝦皮/酷澎/淘寶)、串流影音(Netflix/Disney+/YouTube Premium)、Apple/Google 商店、AI數位工具</td></tr>
-          <tr><td><strong>樂饗購</strong></td><td class="highlight-rate">3.0%</td><td>全臺國內餐廳消費(符合常規餐飲代碼)、各大百貨、外送平台(Uber Eats/Foodpanda)、國內藥妝</td></tr>
-          <tr><td><strong>玩旅刷</strong></td><td class="highlight-rate">3.0%</td><td>全球航空公司機票、各大旅行社、指定國內外訂房、<strong>海外實體店面消費</strong>、國內叫車</td></tr>
-          <tr><td><strong>集精選</strong></td><td class="highlight-rate">3.0%</td><td>家樂福、台灣高鐵、全聯福利中心(包含實體PX Pay/全支付)、指定中油加油站、三井Outlet</td></tr>
-          <tr><td><strong>慶生月</strong></td><td class="highlight-rate">3.5%起</td><td>壽星當月指定加碼通路（精選餐飲、百貨、影音娛樂最高可達 10%）</td></tr>
-          <tr><td><strong>一般消費</strong></td><td>0.3%</td><td>未切換到對應方案，或非官方指定之加碼商戶消費</td></tr>
-        </tbody>
-      </table>
-    </div>
-  `;
-  document.getElementById('rulesContent').innerHTML = html;
-}
-
-// ── 管理頁面功能 ──
-function renderManage(){
-  let html = '';
-  DATA.cards.forEach(c => {
-    html += `<div class="cm-card">
+function renderManage() {
+  document.getElementById('cardManagerList').innerHTML = DATA.cards.map(card =>
+    `<div class="cm-card">
       <div class="cm-head">
-        <div class="rc-badge ${c.badgeClass}">${c.badgeText}</div>
+        <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
         <div class="cm-info">
-          <div class="cm-name">${c.name}</div>
-          <div class="cm-sub">${c.issuer}</div>
+          <div class="cm-name">${escHtml(card.name)}</div>
+          <div class="cm-sub">${escHtml(card.issuer)} · ${escHtml(card.rewardType)}</div>
         </div>
-        <button class="cm-toggle ${c.enabled?'on':'off'}" onclick="toggleCard('${c.id}')">${c.enabled?'使用中':'已停用'}</button>
+        <button class="cm-toggle ${card.enabled?'on':'off'}" onclick="toggleCard('${card.id}')">
+          ${card.enabled?'啟用中':'已停用'}
+        </button>
       </div>
-    </div>`;
-  });
-  document.getElementById('cardManagerList').innerHTML = html;
+    </div>`
+  ).join('');
 }
 
-function toggleCard(id){
-  let c = DATA.cards.find(x=>x.id===id);
-  if(c){ c.enabled = !c.enabled; renderManage(); if(lastQuery) refreshResults(); }
+function toggleCard(id) {
+  const c = DATA.cards.find(c=>c.id===id);
+  if(c) c.enabled = !c.enabled;
+  save(); renderManage(); if(lastResolvedId) refreshResults();
 }
 
-function exportData(){
-  document.getElementById('exportArea').value = JSON.stringify(DATA, null, 2);
+function exportData() {
+  const json = JSON.stringify(DATA, null, 2);
+  document.getElementById('exportArea').value = json;
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+  a.download = `card-data-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
 }
 
-function importData(e){
-  const file = e.target.files[0];
-  if(!file) return;
+function importData(evt) {
+  const file = evt.target.files[0]; if(!file) return;
   const reader = new FileReader();
-  reader.onload = function(evt){
-    try{
-      let parsed = JSON.parse(evt.target.result);
-      if(parsed.cards && parsed.myLevel){
-        DATA = parsed;
-        renderLevelRow();
-        alert('匯入成功！');
-        goPage('q');
-        if(lastQuery) refreshResults();
-      } else { alert('格式不正確，缺少必要欄位'); }
-    }catch(err){ alert('JSON 解析失敗'); }
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(parsed.cards && parsed.myLevel) { DATA=parsed; save(); alert('匯入成功'); location.reload(); }
+      else alert('格式不正確，缺少必要欄位');
+    } catch(err) { alert('JSON 格式錯誤：'+err.message); }
   };
   reader.readAsText(file);
 }
 
-function resetData(){
-  if(confirm('確定要還原為預設權益資料嗎？')){
-    DATA = JSON.parse(JSON.stringify(FRESH_DATA));
-    renderLevelRow();
-    renderManage();
-    alert('已重置為官方預設值');
-  }
+function resetData() {
+  if(!confirm('確定重置全部資料？')) return;
+  localStorage.removeItem('cardData3'); location.reload();
 }
+
+function pct(r) { return (r*100).toFixed(1).replace(/\.0$/,'')+'%'; }
+function fmt(n) { return Math.round(n).toLocaleString('zh-TW'); }
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 renderLevelRow();
 renderQuickTags();
