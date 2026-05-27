@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>刷卡參謀</title>
+<title>刷卡小精靈</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=400;500;600;700&family=DM+Mono:wght=400;500&display=swap');
 :root {
@@ -17,27 +17,24 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.65;min-height:100vh}
-a{color:var(--blue);text-decoration:none}
+a{color:var(--blue);text-decoration:none;font-weight:500}
+a:hover{text-decoration:underline}
 
-/* ── HEADER ── */
 .hd{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;position:sticky;top:0;z-index:200}
 .hd-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:10px;height:48px}
 .hd-logo{width:30px;height:30px;background:var(--text);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .hd-logo span{color:#fff;font-size:13px;font-weight:700;font-family:'DM Mono',monospace}
 .hd-title{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.hd-ver{font-size:11px;color:var(--light);font-family:'DM Mono',monospace;margin-left:4px}
 .hd-nav{display:flex;gap:2px;margin-left:auto}
 .nav-btn{padding:5px 10px;border:none;background:none;font-family:inherit;font-size:12px;color:var(--muted);cursor:pointer;border-radius:5px;font-weight:500;transition:all .1s}
 .nav-btn.active,.nav-btn:hover{background:var(--bg);color:var(--text)}
 .nav-btn.active{font-weight:700;color:var(--text)}
 
-/* ── LAYOUT ── */
 .wrap{max-width:680px;margin:0 auto;padding:16px}
 .page{display:none}.page.active{display:block}
-
-/* ── SECTION LABEL ── */
 .sec-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
 
-/* ── LEVEL SELECTOR ── */
 .lv-row{display:flex;gap:7px;margin-bottom:14px}
 .lv-btn{flex:1;padding:9px 6px;border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r-sm);cursor:pointer;text-align:center;transition:all .1s;font-family:inherit;line-height:1.25}
 .lv-btn:hover{border-color:var(--border2)}
@@ -46,9 +43,8 @@ a{color:var(--blue);text-decoration:none}
 .lv-btn.active .lv-n{color:var(--blue)}
 .lv-d{font-size:11px;color:var(--muted)}
 
-/* ── QUERY CARD ── */
-.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
-.q-row{display:flex;gap:8px;margin-bottom:9px}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;position:relative}
+.q-row{display:flex;gap:8px;margin-bottom:9px;position:relative}
 input[type=text],input[type=number],select,textarea{font-family:inherit;font-size:14px;color:var(--text);background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px 11px;outline:none;transition:border-color .12s;-webkit-appearance:none;appearance:none}
 input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{border-color:var(--blue);background:#fff}
 input::placeholder,textarea::placeholder{color:var(--light)}
@@ -57,90 +53,69 @@ input[type=number]{font-family:'DM Mono',monospace}
 .q-btn{padding:9px 16px;background:var(--text);color:#fff;border:none;border-radius:var(--r-sm);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .1s,transform .08s;flex-shrink:0}
 .q-btn:hover{background:#2a2a2a}
 .q-btn:active{transform:scale(.97)}
+
+.ac-box{position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-sm);box-shadow:0 4px 12px rgba(0,0,0,0.1);max-height:240px;overflow-y:auto;z-index:999;display:none;margin-top:2px}
+.ac-item{padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--surface2);font-size:13px}
+.ac-item:hover, .ac-item.active{background:var(--blue-bg)}
+.ac-name{font-weight:500;color:var(--text);flex:1}
+
 .q-row2{display:flex;gap:8px}
 .amt-wrap{position:relative;flex:1;min-width:0}
-.amt-pfx{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-family:'DM Mono',monospace;pointer-events:none;font-size:13px}
+.amt-pfx{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-family:'DM Mono',monospace;font-size:13px}
 .amt-wrap input{padding-left:22px;width:100%}
-.sel-wrap{position:relative;flex:0 0 148px}
+.sel-wrap{position:relative}
 .sel-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:11px}
 select{padding-right:26px;width:100%;cursor:pointer}
 
-/* ── QUICK TAGS ── */
 .tags{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 0}
 .tag{padding:3px 9px;background:var(--surface);border:1px solid var(--border);border-radius:16px;font-size:12px;cursor:pointer;color:var(--muted);transition:all .1s;font-weight:500}
 .tag:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
-.toggle-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font-size:12px;color:var(--muted)}
-.feature-notes{background:var(--surface);border:1px dashed var(--border2);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px}
-.feature-notes .announce-item{font-size:12px}
 
-/* ── ANNOUNCEMENT BAR ── */
-.announce{background:var(--amber-bg);border:1px solid #e8c060;border-radius:var(--r-sm);padding:8px 12px;margin-bottom:12px;font-size:12px;line-height:1.6}
-.announce-hd{font-weight:700;color:var(--amber);margin-bottom:3px;display:flex;align-items:center;gap:5px}
-.announce-item{color:var(--text);padding:2px 0}
-.announce-item::before{content:'· '}
+/* ── 避雷常識提醒看板 ── */
+.notice-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;margin-top:12px;font-size:12.5px;color:var(--text)}
+.notice-box strong{color:var(--text);font-weight:600}
+.notice-ul{margin-left:16px;margin-top:4px}
+.notice-ul li{margin-bottom:4px;color:#444}
 
 /* ── RESULT CARDS ── */
 .r-header{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.r-title{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.r-title{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--muted)}
 .r-query{font-size:13px;font-weight:600}
-.r-scene{font-size:12px;color:var(--muted)}
 
 .rc{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:9px}
 .rc.best{border-color:var(--blue)}
 .rc-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
-.rc-badge{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;letter-spacing:-.02em;line-height:1.1;text-align:center}
+.rc-badge{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;line-height:1.1;text-align:center}
 .b-ts{background:#e6eefe;color:#1a3fb0}
 .b-ct{background:#fef4d8;color:#7a5500}
 .rc-info{flex:1;min-width:0}
-.rc-name{font-size:13px;font-weight:700;line-height:1.3}
+.rc-name{font-size:13px;font-weight:700}
 .rc-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.rc-best-tag{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;align-self:flex-start}
+.rc-best-tag{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}
 
 .rc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
 .stat{background:var(--surface2);border-radius:7px;padding:8px 10px;text-align:center}
 .sv{font-size:18px;font-weight:700;font-family:'DM Mono',monospace;line-height:1.2}
 .sv.blue{color:var(--blue)}
 .sv.green{color:var(--green)}
+.sv.red{color:var(--red)}
 .sl{font-size:11px;color:var(--muted);margin-top:1px}
-
-.rc-notes{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:3px 10px;font-size:12px;color:var(--muted)}
-.rc-notes span::before{content:'· '}
 .rc-plan{margin-top:7px;padding:7px 10px;background:var(--blue-bg);border-radius:6px;font-size:12px;color:var(--blue);font-weight:500}
-.rc-plan strong{font-weight:700}
-.cap-warn{margin-top:6px;display:inline-block;padding:4px 9px;background:var(--amber-bg);border:1px solid #e8c060;border-radius:4px;font-size:11px;color:var(--amber)}
-.no-r{text-align:center;padding:30px 0;color:var(--muted);font-size:13px}
-.cat-badge{display:inline-block;padding:2px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-size:11px;color:var(--muted);margin-bottom:8px}
+.rc-plan.warning{background:var(--red-bg);color:var(--red)}
 
-/* ── SPLIT COMPARE ── */
-.split-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:12px}
-.split-title{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
-.split-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
-.split-row label{font-size:12px;color:var(--muted);flex:0 0 70px}
-.split-row input{flex:1}
-.split-result{margin-top:8px;font-size:13px;padding:8px 10px;background:var(--surface2);border-radius:6px;line-height:1.7}
+/* ── 規則頁獨有樣式 ── */
+.rule-card-sec {background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px}
+.rule-card-sec h3 {font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.rule-meta {font-size:12.5px;color:#555;margin-bottom:5px}
+.rule-links {font-size:12.5px;margin-bottom:12px;color:var(--muted)}
+.rule-links a {margin-right:8px}
+.rule-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;margin-bottom:6px;overflow:hidden;border-radius:var(--r-sm);border:1px solid var(--border)}
+.rule-table th{background:var(--surface2);padding:8px 10px;text-align:left;font-weight:600;border-bottom:1.5px solid var(--border);color:var(--muted);font-size:11px}
+.rule-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.rule-table tr:last-child td{border-bottom:none}
+.highlight-rate {font-family:'DM Mono',monospace;font-weight:700;color:var(--blue);font-size:13px}
+.rule-notice-panel {background:var(--red-bg);border:1px solid #f8cbad;border-radius:var(--r-sm);padding:11px 14px;margin-top:12px;font-size:12.5px;color:#222}
 
-/* ── MY STATUS ── */
-.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.st-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
-.st-hd{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
-.st-val{font-size:22px;font-weight:700;font-family:'DM Mono',monospace;line-height:1.2}
-.st-sub{font-size:11px;color:var(--muted);margin-top:3px}
-.prog{height:6px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;background:var(--blue);transition:width .3s}
-.prog-fill.warn{background:var(--amber)}
-.prog-fill.full{background:var(--green)}
-.status-edit{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
-.stat-input-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-.stat-input-row label{font-size:12px;color:var(--muted);flex:0 0 100px}
-.stat-input-row input{flex:1}
-.reminders{margin-top:10px}
-.rem-item{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;font-size:12px}
-.rem-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.dot-blue{background:var(--blue)}
-.dot-amber{background:var(--amber)}
-.dot-green{background:var(--green)}
-
-/* ── CARD MANAGER ── */
 .cm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
 .cm-head{padding:12px 14px;display:flex;align-items:center;gap:10px}
 .cm-info{flex:1}
@@ -149,107 +124,88 @@ select{padding-right:26px;width:100%;cursor:pointer}
 .cm-toggle{padding:4px 10px;border:1.5px solid var(--border);border-radius:16px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;background:none;transition:all .1s}
 .cm-toggle.on{border-color:var(--green);color:var(--green);background:var(--green-bg)}
 .cm-toggle.off{border-color:var(--border2);color:var(--muted)}
-.cm-body{padding:0 14px 12px;border-top:1px solid var(--border)}
-.cm-plan-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
-.cm-plan-row:last-child{border-bottom:none}
-.cm-plan-name{flex:0 0 80px;font-weight:600}
-.cm-plan-stores{flex:1;color:var(--muted);font-size:11px;line-height:1.5}
-.cm-plan-rate{font-family:'DM Mono',monospace;font-weight:700;color:var(--blue);flex-shrink:0}
 
-/* ── DATA IO ── */
 .io-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
 .io-title{font-size:13px;font-weight:700;margin-bottom:10px}
-.io-row{display:flex;gap:8px;margin-bottom:8px}
+.io-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .btn-sm{padding:7px 14px;border-radius:var(--r-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .1s;border:1.5px solid var(--border)}
 .btn-sm.pri{background:var(--text);color:#fff;border-color:var(--text)}
 .btn-sm.sec{background:var(--surface);color:var(--text)}
-.btn-sm:hover{opacity:.85}
 .btn-sm.danger{border-color:var(--red);color:var(--red)}
-textarea.json-area{width:100%;height:180px;font-family:'DM Mono',monospace;font-size:11px;resize:vertical;border-radius:var(--r-sm)}
+textarea.json-area{width:100%;height:100px;font-family:'DM Mono',monospace;font-size:11px;resize:vertical;border-radius:var(--r-sm)}
 
-/* ── RULE OVERVIEW ── */
-.rule-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
-.rule-table th{background:var(--surface2);padding:7px 10px;text-align:left;font-weight:600;border-bottom:1.5px solid var(--border);color:var(--muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
-.rule-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
-.rule-table tr:last-child td{border-bottom:none}
-.rule-table td:nth-child(3),.rule-table td:nth-child(4){font-family:'DM Mono',monospace;font-weight:600;color:var(--blue)}
-.rule-table .sub{font-size:10px;color:var(--muted);display:block;margin-top:2px}
-.rule-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
-.rule-box-hd{padding:10px 14px;font-size:13px;font-weight:700;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;background:var(--surface2)}
-
-/* ── DIVIDER ── */
 hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
-
-/* ── RESPONSIVE ── */
-@media(max-width:480px){
-  .rc-stats{grid-template-columns:1fr 1fr 1fr}
-  .stat:last-child{grid-column:span 2}
-  .status-grid{grid-template-columns:1fr}
-  .sel-wrap{flex:0 0 120px}
-}
 </style>
 </head>
-<body>
+<body onclick="hideAutocomplete()">
 
 <div class="hd">
   <div class="hd-inner">
     <div class="hd-logo"><span>刷</span></div>
-    <div class="hd-title">刷卡參謀</div>
+    <div class="hd-title">刷卡小精靈</div>
+    <span class="hd-ver">2026H1</span>
     <nav class="hd-nav">
       <button class="nav-btn active" onclick="goPage('q')">查詢</button>
-            <button class="nav-btn" onclick="goPage('rules')">規則</button>
+      <button class="nav-btn" onclick="goPage('rules')">規則</button>
       <button class="nav-btn" onclick="goPage('manage')">管理</button>
     </nav>
   </div>
 </div>
 
 <div class="wrap page active" id="pg-q">
-
-  <div class="announce" id="announceBar"></div>
-
   <div class="sec-lbl">我的等級</div>
   <div class="lv-row" id="lvRow"></div>
 
-  <div class="q-card">
+  <div class="q-card" onclick="event.stopPropagation()">
     <div class="q-row">
-      <input type="text" class="q-store" id="storeInput" placeholder="輸入店家名稱或消費類型" autocomplete="off" oninput="handleStoreInput()" onkeydown="if(event.key==='Enter')doQuery()">
+      <input type="text" class="q-store" id="storeInput" placeholder="輸入店家或地雷項目，例：Apple、麥當勞、全家" autocomplete="off" oninput="onSearchInput()" onkeydown="onSearchKeydown(event)">
       <button class="q-btn" onclick="doQuery()">立即查詢</button>
+      <div class="ac-box" id="acBox"></div>
     </div>
+    
     <div class="tags" id="quickTags"></div>
+    
     <hr class="divider">
     <div class="q-row2">
-      <div class="sel-wrap" style="flex:0 0 128px">
-        <select id="regionSel">
+      <div class="sel-wrap" style="flex:0 0 110px">
+        <select id="regionSel" onchange="refreshResults()">
           <option value="domestic">國內</option>
           <option value="japan">日本</option>
-          <option value="west">歐美 / 其他海外</option>
+          <option value="europe">歐洲實體</option>
+          <option value="foreign">海外其他</option>
         </select>
       </div>
-      <label style="display:flex;align-items:center;gap:6px;padding:0 4px;white-space:nowrap;color:var(--muted);font-size:12px"><input type="checkbox" id="birthdayToggle"> 生日月</label>
+      <label style="display:flex;align-items:center;gap:4px;padding:0 2px;white-space:nowrap;color:var(--muted);font-size:12px">
+        <input type="checkbox" id="birthdayToggle" onchange="refreshResults()"> 生日月🎂
+      </label>
       <div class="amt-wrap">
         <span class="amt-pfx">$</span>
         <input type="number" id="amountInput" placeholder="輸入消費金額" min="0" step="100" oninput="refreshResults()">
       </div>
-      <div class="sel-wrap">
+      
+      <div class="sel-wrap" style="flex:0 0 150px">
         <select id="sceneSelect" onchange="refreshResults()">
+          <option value="none">實體卡／感應</option>
           <option value="applepay">Apple Pay</option>
           <option value="linepay">LINE Pay</option>
           <option value="taishinpay">台新Pay</option>
-          <option value="pxpay">全支付</option>
-          <option value="taiwanpay">台灣Pay</option>
+          <option value="pxpayplus">全支付</option>
+          <option value="taiwanpay">台灣pay</option>
         </select>
       </div>
     </div>
+
+    <div class="notice-box">
+      <strong>📌 點點簽通路交易限制（麥當勞、肯德基、摩斯、連鎖停車場等）</strong>
+      <ul class="notice-ul">
+        <li><strong>實體卡 / Apple Pay / Google Pay：</strong>走聯合小額支付平台，台新銀行列為 0% 不回饋</li>
+        <li><strong>台新 Pay：</strong>走台新專屬通道，可享行動支付方案，最高 3.8% 回饋</li>
+        <li><strong>LINE Pay：</strong>同樣可繞過小額平台，Richart 卡適用 2.3% 回饋</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="split-box" id="splitBox" style="display:none">
-    <div class="split-title">拆單比較</div>
-    <div class="split-row"><label>卡A金額</label><input type="number" id="splitA" placeholder="0" oninput="calcSplit()"></div>
-    <div class="split-row"><label>卡B金額</label><input type="number" id="splitB" placeholder="0" oninput="calcSplit()"></div>
-    <div class="split-result" id="splitResult"></div>
-  </div>
-
-    <div id="results"></div>
+  <div id="results"></div>
 </div>
 
 <div class="wrap page" id="pg-rules">
@@ -259,245 +215,92 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
 <div class="wrap page" id="pg-manage">
   <div class="sec-lbl" style="margin-bottom:10px">我的卡片</div>
   <div id="cardManagerList"></div>
-
   <div class="io-box" style="margin-top:16px">
-    <div class="io-title">資料匯出 / 匯入</div>
+    <div class="io-title">資料維護</div>
     <div class="io-row">
       <button class="btn-sm pri" onclick="exportData()">匯出 JSON</button>
       <button class="btn-sm sec" onclick="document.getElementById('importFile').click()">匯入 JSON</button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
       <button class="btn-sm danger" onclick="resetData()">重置</button>
     </div>
-    <textarea class="json-area" id="exportArea" placeholder="匯出後 JSON 會顯示在此..."></textarea>
+    <textarea class="json-area" id="exportArea" placeholder="匯出後顯示於此…"></textarea>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════
-//  資料庫 — 根據官方公告整理（2026 H1）
-// ══════════════════════════════════════════════
-const DEFAULT_DATA = {
-  version: "2026H1",
-  lastUpdated: "2026-05",
-  announcements: [
-    "【台新Richart】2026 H1：Pay著刷新增 LINE Pay 最高 2.3% 回饋",
-    "【國泰CUBE】Level 2 條件：用 CUBE App 繳卡費或國泰帳戶自動扣繳，指定通路享 3% ",
-    "【國泰CUBE】玩數位新增 AI 工具通路（ChatGPT、Gemini、Claude 等）"
-  ],
+const MASTER_STORES = [
+  { name: "7-11", sync: ["7-11", "711", "seven", "小七", "統一超商"] },
+  { name: "全家", sync: ["全家", "family", "全家超商"] },
+  { name: "家樂福", sync: ["家樂福", "carrefour"] },
+  { name: "全支付", sync: ["全支付", "pxpayplus"] },
+  { name: "LINE Pay", sync: ["line pay", "linepay"] },
+  { name: "台新Pay", sync: ["台新pay", "taishinpay"] },
+  { name: "日本", sync: ["日本", "japan", "日幣"] },
+  { name: "ChatGPT", sync: ["chatgpt", "openai"] },
+  { name: "王品瘋Pay", sync: ["王品", "王品瘋pay", "瘋pay"] },
+  { name: "Uber Eats", sync: ["uber eats", "ubereats", "外送"] },
+  { name: "FunNow", sync: ["funnow"] },
+  { name: "錢櫃KTV", sync: ["錢櫃", "錢櫃ktv", "ktv"] },
+  { name: "晶華國際酒店", sync: ["晶華", "晶華酒店"] },
+  { name: "台北君悅酒店", sync: ["君悅", "君悅酒店", "台北君悅"] },
+  { name: "麥當勞", sync: ["麥當勞", "mcdonalds"] }
+];
+
+const FRESH_DATA = {
+  myLevel: "2",
   cards: [
     {
       id: "richart",
       name: "台新 Richart 卡",
-      issuer: "台新銀行",
-      enabled: true,
+      issuer: "台新銀行 · 台新Point",
       badgeText: "台新",
       badgeClass: "b-ts",
-      rewardType: "台新Point",
-      rewardNote: "1點=1元，可折抵消費",
-      levelConditions: {
-        "1": "持有台新信用卡（未完成自動扣繳）",
-        "2": "設定台新帳戶自動扣繳信用卡帳款（次期帳單後生效）",
-        "3": "不適用（Lv.3 為國泰財富管理方案）"
-      },
+      enabled: true,
+      levelConditions: { "1": "基本未任務", "2": "Richart自動扣繳/App繳費任務(3.3%)", "3": "國泰財管VIP(300萬)" },
       plans: [
-        {
-          id: "pay",
-          name: "Pay著刷",
-          desc: "台新Pay/LINE Pay/台灣Pay",
-          keywords: ["台新pay","linepay","line pay","台灣pay","twqr","行動支付","pay"],
-          levels: {
-            "1": { rate: 0.013, cap: null, note: "台新Pay 1.3%，LINE Pay/台灣Pay 不適用" },
-            "2": { rate: 0.038, cap: null, note: "台新Pay 3.8%、LINE Pay 2.3%、台灣Pay 3.8%" },
-            "3": { rate: 0.038, cap: null, note: "同Lv2（Richart無Lv3）" }
-          }
-        },
-        {
-          id: "tiantianshua",
-          name: "天天刷",
-          desc: "超商、量販、交通、停車",
-          keywords: ["7-11","seven","711","全家","family","萊爾富","ok超商","便利商店","超商","家樂福","大買家","量販","臺鐵","高鐵","火車","台鐵","uber","計程車","yoxi","停車","嘟嘟房","車麻吉","uspace"],
-          levels: {
-            "1": { rate: 0.013, cap: null, note: "Lv1 僅 1.3%，需完成自動扣繳升Lv2" },
-            "2": { rate: 0.033, cap: null, note: "3.3% ；7-11/全家限台新Pay" },
-            "3": { rate: 0.033, cap: null, note: "同Lv2" }
-          }
-        },
-        {
-          id: "dashua",
-          name: "大筆刷",
-          desc: "百貨、3C、傢俱",
-          keywords: ["百貨","sogo","新光三越","遠東","太平洋","mitsui","outlet","3c","apple","欣亞","燦坤","全國電子","ikea","特力","傢俱","家具"],
-          levels: {
-            "1": { rate: 0.013, cap: null, note: "1.3%" },
-            "2": { rate: 0.033, cap: null, note: "3.3% " },
-            "3": { rate: 0.033, cap: null, note: "同Lv2" }
-          }
-        },
-        {
-          id: "haoxiangshua",
-          name: "好饗刷",
-          desc: "餐廳、外送、飲料",
-          keywords: ["餐廳","餐飲","吃飯","外食","火鍋","燒肉","麥當勞","kfc","肯德基","burger","漢堡王","subway","pizza","星巴克","starbucks","85度c","cama","路易莎","咖啡","飲料","50嵐","手搖","uber eats","ubereats","foodpanda","外送"],
-          levels: {
-            "1": { rate: 0.013, cap: null, note: "1.3%" },
-            "2": { rate: 0.033, cap: null, note: "3.3% " },
-            "3": { rate: 0.033, cap: null, note: "同Lv2" }
-          }
-        },
-        {
-          id: "shuchuashua",
-          name: "數趣刷",
-          desc: "網購、串流、遊戲",
-          keywords: ["momo","pchome","shopee","蝦皮","yahoo購物","網購","netflix","disney+","disney","spotify","youtube premium","apple music","apple tv","google play","app store","遊戲","steam","amazon","淘寶","天貓"],
-          levels: {
-            "1": { rate: 0.013, cap: null, note: "1.3%" },
-            "2": { rate: 0.033, cap: null, note: "3.3% " },
-            "3": { rate: 0.033, cap: null, note: "同Lv2" }
-          }
-        },
-        {
-          id: "wanlvshua",
-          name: "玩旅刷",
-          desc: "機票、訂房、旅遊",
-          keywords: ["機票","中華航空","長榮","星宇","虎航","訂房","hotel","booking","agoda","airbnb","klook","kkday","旅遊","出國","海外","高鐵","和運","格上","rent a car"],
-          levels: {
-            "1": { rate: 0.013, cap: null, note: "1.3%" },
-            "2": { rate: 0.033, cap: null, note: "3.3% " },
-            "3": { rate: 0.033, cap: null, note: "同Lv2" }
-          }
-        },
-        {
-          id: "holiday",
-          name: "假日刷",
-          desc: "週六日不限通路",
-          keywords: ["假日","週末","週六","週日","假日消費"],
-          sceneTrigger: "weekend",
-          levels: {
-            "1": { rate: 0.013, cap: null, note: "假日 1.3%" },
-            "2": { rate: 0.02, cap: null, note: "假日 2%（週六日），" },
-            "3": { rate: 0.02, cap: null, note: "同Lv2" }
-          }
-        }
+        { id: "pay", name: "Pay著刷", keywords: ["台新pay", "linepay", "台灣pay", "line pay"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.038 } } },
+        { id: "haoxiangshua", name: "好饗刷", keywords: ["王品瘋Pay", "Uber Eats", "Foodpanda", "台北君悅酒店", "晶華國際酒店", "FunNow", "錢櫃KTV"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } },
+        { id: "tiantianshua", name: "天天刷", keywords: ["7-11", "全家", "家樂福"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } },
+        { id: "shuchuashua", name: "數趣刷", keywords: ["ChatGPT"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } },
+        { id: "wanlvshua", name: "玩旅刷", keywords: ["日本"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.033 } } }
       ],
-      baseRate: 0.003,
-      baseNote: "未符合指定通路時 0.3% 一般回饋"
+      baseRate: 0.003
     },
     {
       id: "cube",
       name: "國泰 CUBE 卡",
-      issuer: "國泰世華",
-      enabled: true,
+      issuer: "國泰世華 · 小樹點",
       badgeText: "國泰",
       badgeClass: "b-ct",
-      rewardType: "小樹點",
-      rewardNote: "1點=1元，可折抵消費，可換哩程",
-      levelConditions: {
-        "1": "持有 CUBE 卡（未完成繳費任務）",
-        "2": "每月用 CUBE App 繳卡費，或設定國泰帳戶自動扣繳",
-        "3": "國泰財富管理 VIP（平均3個月往來資產≥300萬）"
-      },
+      enabled: true,
+      levelConditions: { "1": "基本未任務", "2": "CUBE App任務已完成", "3": "國泰財管VIP(300萬)" },
       plans: [
-        {
-          id: "digital",
-          name: "玩數位",
-          desc: "串流、網購、AI工具",
-          keywords: ["netflix","disney+","disney","spotify","youtube premium","apple music","apple tv","apple media","google play","app store","串流","訂閱","momo","pchome","shopee","蝦皮","網購","amazon","淘寶","天貓","coupang","酷澎","chatgpt","claude","gemini","perplexity","ai工具","ai","notion","canva","cursor","duolingo","gamma","speak"],
-          levels: {
-            "1": { rate: 0.02, cap: null, note: "2% " },
-            "2": { rate: 0.03, cap: null, note: "3% （需完成繳費任務）" },
-            "3": { rate: 0.033, cap: null, note: "3.3% （財管VIP）" }
-          }
-        },
-        {
-          id: "dining",
-          name: "樂饗購",
-          desc: "百貨、餐廳、藥妝",
-          keywords: ["sogo","新光三越","遠東百貨","太平洋","微風","101","att","京站","美麗華","大葉高島屋","三井","lalaport","mitsui","百貨","outlet","餐廳","餐飲","吃飯","外食","火鍋","燒肉","麥當勞","星巴克","starbucks","uber eats","ubereats","foodpanda","外送","康是美","屈臣氏","日藥本舖","藥妝"],
-          levels: {
-            "1": { rate: 0.02, cap: null, note: "2% " },
-            "2": { rate: 0.03, cap: null, note: "3% " },
-            "3": { rate: 0.033, cap: null, note: "3.3% " }
-          }
-        },
-        {
-          id: "travel",
-          name: "趣旅行",
-          desc: "海外、機票、交通、訂房",
-          keywords: ["海外","出國","abroad","機票","中華航空","長榮","星宇","虎航","國泰航空","日本航空","ana","新加坡航空","訂房","hotel","booking","agoda","airbnb","klook","kkday","旅遊","高鐵","uber","grab","yoxi","台灣大車隊","和運","格上","suica","pasmo","icoca","東京迪士尼","大阪環球","usj"],
-          levels: {
-            "1": { rate: 0.02, cap: null, note: "海外實體/指定通路 2%" },
-            "2": { rate: 0.03, cap: null, note: "3% " },
-            "3": { rate: 0.033, cap: null, note: "3.3% " }
-          }
-        },
-        {
-          id: "select",
-          name: "集精選",
-          desc: "超商、超市、加油、停車",
-          keywords: ["7-11","seven","711","全家","family","便利商店","超商","全聯","家樂福","lopia","超市","量販","中油","加油","停車","充電","u-power","ikea"],
-          levels: {
-            "1": { rate: 0.02, cap: null, note: "2% " },
-            "2": { rate: 0.02, cap: null, note: "2%（集精選無 Lv2 加碼，固定 2%）" },
-            "3": { rate: 0.02, cap: null, note: "2%（固定）" }
-          }
-        },
-        {
-          id: "birthday",
-          name: "慶生月",
-          desc: "生日月當月限定，餐廳/遊樂園最高10%",
-          keywords: ["生日","birthday","慶生"],
-          sceneTrigger: "birthday",
-          levels: {
-            "1": { rate: 0.10, cap: null, note: "生日月：新光三越/UE/Klook/FunNow 最高10%，其他指定 5%" },
-            "2": { rate: 0.10, cap: null, note: "同上（慶生月不分等級）" },
-            "3": { rate: 0.10, cap: null, note: "同上" }
-          }
-        }
+        { id: "digital", name: "玩數位", keywords: ["ChatGPT"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.03 } } },
+        { id: "dining", name: "樂饗購", keywords: ["王品瘋Pay", "Uber Eats", "FunNow", "錢櫃KTV", "晶華國際酒店", "台北君悅酒店"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.03 } } },
+        { id: "select", name: "集精選", keywords: ["7-11", "全家", "家樂福"], levels: { "1": { rate: 0.003 }, "2": { rate: 0.02 } } }
       ],
-      baseRate: 0.003,
-      baseNote: "指定通路外 0.3% 一般回饋"
+      baseRate: 0.003
     }
-  ],
-  myStatus: {
-    richart: { monthlySpent: 0, monthlyRewarded: 0, registered: true },
-    cube: { monthlySpent: 0, monthlyRewarded: 0, registered: true }
-  },
-  myLevel: "2"
+  ]
 };
 
-// ── State ──
-let DATA = JSON.parse(localStorage.getItem('cardData') || 'null') || JSON.parse(JSON.stringify(DEFAULT_DATA));
-let currentPage = 'q';
+let DATA = JSON.parse(JSON.stringify(FRESH_DATA));
 let lastQuery = '';
-let lastCat = null;
-let lastPlanMatches = {};
+let activeAcIndex = -1;
 
-function save(){ localStorage.setItem('cardData', JSON.stringify(DATA)); }
-
-// ── Page nav ──
 function goPage(p){
-  currentPage = p;
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.getElementById('pg-'+p).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach((b,i)=>{
-    const pages=['q','rules','manage'];
-    b.classList.toggle('active', pages[i]===p);
-  });
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active', ['q','rules','manage'][i]===p));
   if(p==='rules') renderRules();
   if(p==='manage') renderManage();
 }
 
-// ── Level ──
 function renderLevelRow(){
-  const lv = DATA.myLevel;
   let html = '';
   ['1','2','3'].forEach(n=>{
-    const descs = {
-      '1':'未設定自動扣繳',
-      '2':'自動扣繳 / App繳費',
-      '3':'財管VIP（300萬往來）'
-    };
-    html += `<button class="lv-btn${lv===n?' active':''}" onclick="setLevel('${n}')">
+    const descs = {'1':'基本未任務','2':'Richart扣繳/App任務(3.3%)','3':'國泰財管VIP(300萬)'};
+    html += `<button class="lv-btn${DATA.myLevel===n?' active':''}" onclick="setLevel('${n}')">
       <span class="lv-n">Lv.${n}</span>
       <span class="lv-d">${descs[n]}</span>
     </button>`;
@@ -505,301 +308,305 @@ function renderLevelRow(){
   document.getElementById('lvRow').innerHTML = html;
 }
 
-function setLevel(lv){
-  DATA.myLevel = lv;
-  save();
-  renderLevelRow();
-  if(lastQuery) doQuery();
-}
+function setLevel(lv){ DATA.myLevel = lv; renderLevelRow(); if(lastQuery) refreshResults(); }
 
-// ── Announcements ──
-function renderAnnounce(){
-  const bar = document.getElementById('announceBar');
-  if(!DATA.announcements?.length){bar.style.display='none';return;}
-  bar.style.display='block';
-  bar.innerHTML = `<div class="announce-hd">📢 最新公告 <span style="font-size:10px;font-weight:400;color:var(--amber)">${DATA.version}</span></div>`
-    + DATA.announcements.map(a=>`<div class="announce-item">${escHtml(a)}</div>`).join('');
-}
-
-// ── Quick tags ──
 function renderQuickTags(){
-  // 依要求移除「日本、ChatGPT」，並加入「台灣pay」
-  const tags = ['7-11','全家','家樂福','全支付','LINE Pay','台新Pay','台灣pay'];
-  document.getElementById('quickTags').innerHTML = tags.map(t=>
-    `<span class="tag" onclick="fillStore('${t}')">${t}</span>`
-  ).join('');
+  const tags = ['7-11', '全家', '家樂福', '全支付', 'LINE Pay', '台新Pay', '台灣pay'];
+  document.getElementById('quickTags').innerHTML = tags.map(t=>`<span class="tag" onclick="fillStore('${t}')">${t}</span>`).join('');
+}
+function fillStore(name){ document.getElementById('storeInput').value = name; hideAutocomplete(); doQuery(); }
+
+function onSearchInput() {
+  const val = document.getElementById('storeInput').value.trim().toLowerCase();
+  const box = document.getElementById('acBox');
+  if (!val) { box.style.display = 'none'; return; }
+  const matches = MASTER_STORES.filter(s => s.name.toLowerCase().includes(val) || s.sync.some(k => k.toLowerCase().includes(val)));
+  if (matches.length === 0) { box.style.display = 'none'; return; }
+  activeAcIndex = -1;
+  let html = '';
+  matches.slice(0, 6).forEach((m, idx) => {
+    html += `<div class="ac-item" id="acItem-${idx}" onclick="selectAcItem('${m.name}')"><span class="ac-name">${m.name}</span></div>`;
+  });
+  box.innerHTML = html; box.style.display = 'block';
+}
+function onSearchKeydown(e) {
+  const box = document.getElementById('acBox'); if (box.style.display === 'none') { if (e.key === 'Enter') doQuery(); return; }
+  const items = box.querySelectorAll('.ac-item');
+  if (e.key === 'ArrowDown') { e.preventDefault(); activeAcIndex = (activeAcIndex + 1) % items.length; updateAcSelection(items); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); activeAcIndex = (activeAcIndex - 1 + items.length) % items.length; updateAcSelection(items); }
+  else if (e.key === 'Enter') { e.preventDefault(); if (activeAcIndex >= 0) items[activeAcIndex].click(); else doQuery(); }
+}
+function updateAcSelection(items) { items.forEach((item, idx) => item.classList.toggle('active', idx === activeAcIndex)); }
+function selectAcItem(name) { document.getElementById('storeInput').value = name; hideAutocomplete(); doQuery(); }
+
+function normalizeKeyword(s){ return String(s || '').toLowerCase().replace(/\s+/g, '').trim(); }
+function hideAutocomplete() { document.getElementById('acBox').style.display = 'none'; }
+
+function doQuery(){
+  let inputEl = document.getElementById('storeInput'); let rawInput = inputEl.value.trim();
+  if(!rawInput){ document.getElementById('results').innerHTML=''; return; }
+  let queryLower = rawInput.toLowerCase(); let matchedFull = null;
+  for(const item of MASTER_STORES){ if(item.name.toLowerCase() === queryLower || item.sync.some(k => k.toLowerCase() === queryLower)){ matchedFull = item.name; break; } }
+  if (!matchedFull) { for(const item of MASTER_STORES){ if(item.name.toLowerCase().includes(queryLower) || item.sync.some(k => k.toLowerCase().includes(queryLower))){ matchedFull = item.name; break; } } }
+  lastQuery = matchedFull ? matchedFull : rawInput; if(matchedFull) inputEl.value = matchedFull;
+  hideAutocomplete(); refreshResults();
 }
 
-function fillStore(name){
-  document.getElementById('storeInput').value = name;
-  doQuery();
-}
 
-function handleStoreInput(){
-  // could auto-suggest
-}
 
-// ── Store → plan detection ──
-function detectPlan(input, cardId){
-  const card = DATA.cards.find(c=>c.id===cardId);
-  if(!card) return null;
-  const lower = input.toLowerCase();
-  for(const plan of card.plans){
-    for(const kw of plan.keywords){
-      if(lower.includes(kw.toLowerCase())) return plan;
+function computeCardResult(card, query, scene, lv, isBirthday, region){
+  const qLower = normalizeKeyword(query);
+  if(!card.enabled) return { card, plan: null, rate: 0, isWarning: false, customNote: "卡片已在管理頁中關閉" };
+
+  if(region === 'japan' || region === 'west' || region === 'foreign'){
+    if(card.id === 'cube'){
+      const cubeRateMap = { '1': 0.02, '2': 0.03, '3': 0.033 };
+      const rate = cubeRateMap[lv] || 0.03;
+      return { card, plan: { name: '趣旅行' }, rate, isWarning: false, customNote: `${region === 'japan' ? '日本' : region === 'west' ? '歐洲' : '海外其他'}請認明切換至【趣旅行】方案。` };
+    }
+    if(card.id === 'richart'){
+      const rate = 0.033;
+      return { card, plan: { name: '玩旅刷' }, rate, isWarning: false, customNote: `${region === 'japan' ? '日本' : region === 'west' ? '歐洲' : '海外其他'}請認明切換至【玩旅刷】方案。` };
     }
   }
-  return null;
-}
+  const isPayHit = (s) => ['linepay','taishinpay','taiwanpay','pxpayplus'].includes(s) || qLower.includes('全支付') || qLower.includes('linepay') || qLower.includes('台新pay') || qLower.includes('台灣pay') || qLower.includes('twqr');
 
-// ── Compute best rate for a card ──
-function computeCardResult(card, input, scene, lv){
-  let bestPlan = null;
-  let bestRate = card.baseRate;
-  const lower = input.toLowerCase();
-
-  for(const plan of card.plans){
-    // scene-triggered plans
-    if(plan.sceneTrigger && plan.sceneTrigger !== scene) continue;
-
-    for(const kw of plan.keywords){
-      if(lower.includes(kw.toLowerCase())){
-        const r = plan.levels[lv].rate;
-        if(r > bestRate){ bestRate = r; bestPlan = plan; }
-        break;
+  if(card.id === 'richart'){
+    const payPlan = card.plans.find(p => p.id === 'pay');
+    const payKeywords = ['台新pay','台新pay+','linepay','台灣pay','twqr','全家','711','7-11','新光三越','richartmart','康是美','ikea','net','神腦','燦坤','全國電子','麥當勞','美廉社','大樹藥局','lawson','biccamera','gs25','daiso'];
+    const payMatch = qLower.includes('台新pay') || qLower.includes('台新pay+') || qLower.includes('linepay') || qLower.includes('台灣pay') || qLower.includes('twqr') || payKeywords.some(k => qLower.includes(k));
+    if(isPayHit(scene) || payMatch){
+      const rate = scene === 'linepay' ? 0.023 : 0.038;
+      const note = scene === 'linepay' ? '2.3% 需使用 LINE Pay' : '3.8% 需使用台新Pay(TWQR、台灣Pay)';
+      return { card, plan: payPlan || { name: 'Pay著刷' }, rate, isWarning: false, customNote: note };
+    }
+    if(qLower.includes('ikea') || qLower.includes('宜家') || qLower.includes('全支付')){
+      const plan = card.plans.find(p => p.id === 'dashua') || card.plans.find(p => p.id === 'shuchuashua') || card.plans.find(p => p.id === 'pay');
+      if(plan){
+        const rate = plan.levels[lv] ? plan.levels[lv].rate : 0.033;
+        return { card, plan, rate, isWarning: false, customNote: `請認明切換至【${plan.name}】方案。` };
       }
     }
   }
 
-  // Special: weekend scene unlocks 假日刷 for any store
-  if(scene==='weekend'){
-    const wPlan = card.plans.find(p=>p.id==='holiday'||p.sceneTrigger==='weekend');
-    if(wPlan){
-      const r = wPlan.levels[lv].rate;
-      if(r > bestRate){ bestRate = r; bestPlan = wPlan; }
+  if(card.id === 'cube'){
+    if(scene === 'pxpayplus' || qLower.includes('全支付') || qLower.includes('pxpayplus')){
+      const plan = card.plans.find(p => p.id === 'select');
+      const rate = plan ? (plan.levels[lv] ? plan.levels[lv].rate : 0.02) : 0.02;
+      return { card, plan, rate, isWarning: false, customNote: '需使用全支付' };
+    }
+    if(scene === 'linepay' || qLower.includes('line pay') || qLower.includes('linepay')){
+      return { card, plan: null, rate: 0.003, isWarning: false, customNote: '無方案' };
+    }
+    if(scene === 'taishinpay' || scene === 'taiwanpay'){
+      const plan = card.plans.find(p => p.id === 'select');
+      const rate = plan ? (plan.levels[lv] ? plan.levels[lv].rate : 0.02) : 0.02;
+      return { card, plan, rate, isWarning: false, customNote: plan ? (plan.name === '全支付' ? '需使用全支付' : plan.name === 'LINE Pay' ? '需使用LINE Pay' : plan.name === 'Pay著刷' ? '3.8% 需使用台新Pay(TWQR、台灣Pay)' : `請認明切換至【${plan.name}】方案。`) : '請確認切換或認明：【一般消費】' };
     }
   }
 
-  const lvData = bestPlan ? bestPlan.levels[lv] : null;
-  return { card, plan: bestPlan, rate: bestRate, lvData };
-}
+  if(isBirthday && card.id === 'cube'){
+    const bPlan = card.plans.find(p => p.id === 'birthday');
+    if(bPlan && bPlan.keywords.some(kw => qLower.includes(normalizeKeyword(kw)) || normalizeKeyword(kw).includes(qLower))){
+      return { card, plan: bPlan, rate: bPlan.levels[lv].rate, isWarning: false, customNote: `請認明切換至【${bPlan.name}】方案。` };
+    }
+  }
 
-// ── Main query ──
-function doQuery(){
-  const v = document.getElementById('storeInput').value.trim();
-  if(!v){ document.getElementById('results').innerHTML=''; return; }
-  lastQuery = v;
-  refreshResults();
-}
+  for(const plan of card.plans){
+    if(plan.sceneTrigger) continue;
+    const isMatch = plan.keywords.some(kw => {
+      const kwL = normalizeKeyword(kw);
+      return qLower.includes(kwL) || kwL.includes(qLower);
+    });
+    if(isMatch){
+      const lvEntry = plan.levels[lv] || plan.levels['2'];
+      const rate = lvEntry ? lvEntry.rate : card.baseRate;
+      return { card, plan, rate, isWarning: false, customNote: `請認明切換至【${plan.name}】方案。` };
+    }
+  }
 
+  return { card, plan: null, rate: card.baseRate, isWarning: false, customNote: "請確認切換或認明：【一般消費】" };
+}
 function refreshResults(){
   if(!lastQuery) return;
   const lv = DATA.myLevel;
   const amount = parseFloat(document.getElementById('amountInput').value)||0;
   const scene = document.getElementById('sceneSelect').value;
+  const isBirthday = document.getElementById('birthdayToggle').checked;
+  const region = document.getElementById('regionSel').value;
 
-  const activeCards = DATA.cards.filter(c=>c.enabled);
-  if(!activeCards.length){
-    document.getElementById('results').innerHTML='<div class="no-r">沒有啟用的卡片。請到「管理」頁面新增或啟用卡片。</div>';
-    return;
-  }
+  const results = DATA.cards.map(card=>{
+    return computeCardResult(card, lastQuery, scene, lv, isBirthday, region);
+  }).sort((a,b)=>b.rate - a.rate);
 
-  const results = activeCards.map(card=>{
-    const cr = computeCardResult(card, lastQuery, scene, lv);
-    const cashback = amount>0 ? amount * cr.rate : null;
-    return {...cr, cashback};
-  }).sort((a,b)=>(b.cashback??b.rate)-(a.cashback??a.rate));
-
-  const sceneLabels = {
-    applepay:'Apple Pay', linepay:'LINE Pay', taishinpay:'台新Pay', pxpay:'全支付', taiwanpay:'台灣Pay'
-  };
+  let sceneTxt = "直接刷卡/感應";
+  if(scene==='applepay') sceneTxt="Apple Pay";
+  if(scene==='linepay') sceneTxt="LINE Pay";
+  if(scene==='taishinpay') sceneTxt="台新Pay";
+  if(scene==='pxpayplus') sceneTxt="全支付";
+  if(scene==='taiwanpay') sceneTxt="台灣pay";
 
   let html = `<div class="r-header">
-    <span class="r-title">查詢結果</span>
-    <span class="r-query">${escHtml(lastQuery)}</span>
-    <span class="r-scene">· ${sceneLabels[scene]} · Lv.${lv}</span>
+    <span class="r-title">最佳方案比對</span>
+    <span class="r-query">${lastQuery}</span>
+    <span class="r-title" style="margin-left:5px;">· ${sceneTxt} · 等級 Lv.${lv}</span>
   </div>`;
 
-  results.forEach((r,idx)=>{
-    html += renderRC(r, idx===0, amount, lv);
-  });
+  results.forEach((r, idx)=>{
+    const {card, plan, rate, isWarning, customNote} = r;
+    const cashback = amount * rate;
+    
+    let condTxt = "";
+    if(card.id==='richart') condTxt = "（當前條件：Richart自動扣繳中）";
+    if(card.id==='cube') condTxt = "（當前條件：CUBE App任務已完成）";
 
-  // Split compare button
-  if(results.length>=2 && amount>0){
-    document.getElementById('splitBox').style.display='block';
-    initSplit(results);
-  } else {
-    document.getElementById('splitBox').style.display='none';
-  }
+    html += `<div class="rc${idx===0 && rate>0 ?' best':''}">
+      <div class="rc-top">
+        <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
+        <div class="rc-info">
+          <div class="rc-name">${card.name}</div>
+          <div class="rc-sub">${card.issuer} · Lv.${lv}</div>
+        </div>
+        ${idx===0 && rate>0 ?'<div class="rc-best-tag">最高回饋</div>':''}
+      </div>
+      <div class="rc-stats">
+        <div class="stat"><div class="sv" style="font-size:13px">${plan ? plan.name : '一般消費'}</div><div class="sl">適用方案</div></div>
+        <div class="stat"><div class="sv ${isWarning || rate===0 ?'red':'blue'}">${(rate*100).toFixed(1).replace(/\.0$/,'')}%</div><div class="sl">回饋率</div></div>
+        <div class="stat"><div class="sv green">${amount>0 && rate>0 ?'$'+Math.round(cashback):'—'}</div><div class="sl">預估回饋</div></div>
+      </div>
+      <div class="rc-plan ${isWarning || rate===0 ?'warning':''}">💡 貼心提醒：${customNote} <span style="font-size:11px; color:var(--muted);">${condTxt}</span></div>
+    </div>`;
+  });
 
   document.getElementById('results').innerHTML = html;
 }
 
-let splitCards = [];
-function initSplit(results){
-  splitCards = results;
-  document.getElementById('splitA').value = '';
-  document.getElementById('splitB').value = '';
-  document.getElementById('splitResult').innerHTML = '輸入兩張卡各自要刷的金額，自動加總比較回饋。';
-}
-
-function calcSplit(){
-  if(splitCards.length<2) return;
-  const a = parseFloat(document.getElementById('splitA').value)||0;
-  const b = parseFloat(document.getElementById('splitB').value)||0;
-  const ca = a * splitCards[0].rate;
-  const cb = b * splitCards[1].rate;
-  document.getElementById('splitResult').innerHTML =
-    `<strong>${splitCards[0].card.name}</strong> $${fmt(a)} → 回饋 <span style="color:var(--green);font-family:'DM Mono',monospace;font-weight:700">+$${fmt(ca)}</span><br>`+
-    `<strong>${splitCards[1].card.name}</strong> $${fmt(b)} → 回饋 <span style="color:var(--green);font-family:'DM Mono',monospace;font-weight:700">+$${fmt(cb)}</span><br>`+
-    `合計回饋：<span style="color:var(--blue);font-family:'DM Mono',monospace;font-weight:700">$${fmt(ca+cb)}</span>`;
-}
-
-function renderRC(r, isBest, amount, lv){
-  const {card, plan, rate, cashback, lvData} = r;
-  const noMatch = !plan;
-
-  // Build notes
-  const notes = [];
-  if(lvData) notes.push(lvData.note);
-  notes.push(card.rewardNote);
-
-  // Level condition hint
-  const lvCond = card.levelConditions[lv];
-  const region = document.getElementById('regionSel') ? document.getElementById('regionSel').value : 'domestic';
-  const regionLabel = region === 'japan' ? '日本' : region === 'west' ? '歐美 / 其他海外' : '國內';
-
-  return `<div class="rc${isBest?' best':''}">
-    <div class="rc-top">
-      <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
-      <div class="rc-info">
-        <div class="rc-name">${card.name}</div>
-        <div class="rc-sub">${card.issuer} · ${card.rewardType} · Lv.${lv}</div>
-      </div>
-      ${isBest?'<div class="rc-best-tag">推薦</div>':''}
-    </div>
-    <div class="rc-stats">
-      <div class="stat"><div class="sv">${escHtml(plan ? plan.name : '一般回饋')}</div><div class="sl">適用方案</div></div>
-      <div class="stat"><div class="sv blue">${pct(rate)}</div><div class="sl">回饋率</div></div>
-      <div class="stat"><div class="sv green">${amount>0?'$'+fmt(cashback):'—'}</div><div class="sl">本次回饋</div></div>
-    </div>
-    <div class="rc-plan">${region==='domestic' ? (plan ? `需切換方案：<strong>${plan.name}</strong>` : '需切換方案：<strong>一般回饋</strong>') : `出國情境：<strong>${regionLabel}</strong>`}｜升等條件：${escHtml(lvCond)}</div>
-    <div class="rc-notes">${notes.map(n=>`<span>${escHtml(n)}</span>`).join('')}</div>
-  </div>`;
-}
-
-// ── STATUS PAGE ──
-function renderStatus(){ return; /* status removed */ }
-
-// ── RULES PAGE ──
+// ── 規則頁：完整填入回饋權益與官方確認連結 ──
 function renderRules(){
-  const lv = DATA.myLevel;
-  let html = '';
-  DATA.cards.forEach(card=>{
-    html += `<div class="rule-box" style="margin-bottom:14px">
-      <div class="rule-box-hd">
-        <div class="rc-badge ${card.badgeClass}" style="width:28px;height:28px;font-size:9px">${card.badgeText}</div>
-        ${card.name} — Lv.${lv} 權益
+  let html = `
+    <div class="rule-card-sec">
+      <h3>💳 台新 Richart 卡 — Lv.2 核心權益</h3>
+      <div class="rule-meta"><strong>升級條件：</strong>設定 Richart 帳戶自動扣繳信用卡款（次期帳單後生效）</div>
+      <div class="rule-meta"><strong>回饋型態：</strong>台新Point（1點 = 1元，可直接折抵消費帳單）</div>
+      <div class="rule-links">
+        <strong>🔍 官方驗證：</strong>
+        <a href="https://www.taishinbank.com.tw/TSB/personal/credit/intro/overview/future/6e39b736-d735-11f0-b50f-0050568c09e3" target="_blank">台新權益公告連結</a> │ 
+        <a href="https://www.taishinbank.com.tw/TSB/personal/credit/intro/rights/notice/restricteditems/" target="_blank">台新不回饋項目條款</a>
       </div>
-      <div style="padding:10px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)">
-        <strong>升等條件：</strong>${escHtml(card.levelConditions[lv])}<br>
-        <strong>回饋方式：</strong>${card.rewardType}（${card.rewardNote}）
-      </div>
+      
       <table class="rule-table">
-        <tr><th>方案</th><th>主要通路</th><th>回饋率</th><th>上限</th></tr>
-        ${card.plans.map(p=>{
-          const pl = p.levels[lv];
-          return `<tr>
-            <td><strong>${p.name}</strong><span class="sub">${p.desc}</span></td>
-            <td style="font-size:11px;color:var(--muted)">${p.keywords.slice(0,5).join('、')}...</td>
-            <td>${pct(pl.rate)}</td>
-            <td>${pl.cap ? '$'+fmt(pl.cap) : ''}</td>
-          </tr>`;
-        }).join('')}
-        <tr>
-          <td>一般消費</td><td style="font-size:11px;color:var(--muted)">其他通路</td>
-          <td>${pct(card.baseRate)}</td><td></td>
-        </tr>
+        <thead>
+          <tr>
+            <th style="width:22%">方案項目</th>
+            <th style="width:15%">回饋率</th>
+            <th>適用核心通路範例</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Pay著刷</strong></td><td class="highlight-rate">3.8%</td><td>台新Pay、台灣Pay、LINE Pay (適用2.3%)、街口支付等綁定錢包管道</td></tr>
+          <tr><td><strong>天天刷</strong></td><td class="highlight-rate">3.3%</td><td>7-11、全家 (超商需綁台新Pay)、家樂福、全聯(全支付/指定條件)、交通、停車、藥妝</td></tr>
+          <tr><td><strong>好饗刷</strong></td><td class="highlight-rate">3.3%</td><td>全臺餐飲、王品瘋Pay、外送平台(Uber Eats/Foodpanda)、購票娛樂(拓元/KKTIX/FunNow)、指定連鎖飯店集團(晶華/君悅/煙波/老爺/寒舍系列)、連鎖KTV(錢櫃/好樂迪)</td></tr>
+          <tr><td><strong>數趣刷</strong></td><td class="highlight-rate">3.3%</td><td>網購平台(蝦皮/momo/酷澎/淘寶)、線上影音課程、AI訂閱(ChatGPT/Notion/Claude)、IKEA</td></tr>
+          <tr><td><strong>玩旅刷</strong></td><td class="highlight-rate">3.3%</td><td>海外消費(含實體與線上)、航空公司機票、國內外訂房平台(Klook/KKday/Agoda)、旅行社</td></tr>
+          <tr><td><strong>大筆刷</strong></td><td class="highlight-rate">3.3%</td><td>各大百貨商場(新光三越/SOGO/遠百/微風/101/三井Outlet/Lalaport)、3C賣場、時尚居家</td></tr>
+          <tr><td><strong>假日刷</strong></td><td class="highlight-rate">2.0%</td><td>週六、週日不限通路之國內一般消費</td></tr>
+          <tr><td><strong>一般消費</strong></td><td>0.3%</td><td>其他未列入加碼名單之國內常規一般消費通路</td></tr>
+        </tbody>
       </table>
-    </div>`;
-  });
+
+      <div class="rule-notice-panel">
+        <strong>⚠️ 點點簽地雷與繞過防踩指南：</strong><br>
+        當你在<strong>麥當勞、肯德基、摩斯漢堡、連鎖停車場</strong>使用實體卡感應或 Apple Pay/Google Pay 時，系統會強制接入「聯合小額支付平台」，台新官方列為<strong>0%不回饋</strong>。請務必改用<strong>台新 Pay (3.8%)</strong> 或 <strong>LINE Pay (2.3%)</strong> 以專屬錢包通道繞過限制。
+      </div>
+    </div>
+
+    <div class="rule-card-sec">
+      <h3>💳 國泰 CUBE 卡 — Lv.2 核心權益</h3>
+      <div class="rule-meta"><strong>升級條件：</strong>每月登入 CUBE App 繳卡費 或 設定國泰帳戶自動扣繳</div>
+      <div class="rule-meta"><strong>回饋型態：</strong>小樹點（1點 = 1元，可折抵消費或自由兌換航空哩程）</div>
+      <div class="rule-links">
+        <strong>🔍 官方驗證：</strong>
+        <a href="https://www.cathay-cube.com.tw/cathaybk/personal/product/credit-card/cards/cube-list" target="_blank">國泰 CUBE 官方權益指南連結</a>
+      </div>
+
+      <table class="rule-table">
+        <thead>
+          <tr>
+            <th style="width:22%">切換方案</th>
+            <th style="width:15%">回饋率</th>
+            <th>適用核心通路範例（需每日手動自行於 App 切換）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>玩數位</strong></td><td class="highlight-rate">3.0%</td><td>網購(momo/PChome/蝦皮/酷澎/淘寶)、串流影音(Netflix/Disney+/YouTube Premium)、Apple/Google 商店、AI數位工具</td></tr>
+          <tr><td><strong>樂饗購</strong></td><td class="highlight-rate">3.0%</td><td>全臺國內餐廳消費(符合常規餐飲代碼)、各大百貨、外送平台(Uber Eats/Foodpanda)、國內藥妝</td></tr>
+          <tr><td><strong>玩旅刷</strong></td><td class="highlight-rate">3.0%</td><td>全球航空公司機票、各大旅行社、指定國內外訂房、<strong>海外實體店面消費</strong>、國內叫車</td></tr>
+          <tr><td><strong>集精選</strong></td><td class="highlight-rate">3.0%</td><td>家樂福、台灣高鐵、全聯福利中心(包含實體PX Pay/全支付)、指定中油加油站、三井Outlet</td></tr>
+          <tr><td><strong>慶生月</strong></td><td class="highlight-rate">3.5%起</td><td>壽星當月指定加碼通路（精選餐飲、百貨、影音娛樂最高可達 10%）</td></tr>
+          <tr><td><strong>一般消費</strong></td><td>0.3%</td><td>未切換到對應方案，或非官方指定之加碼商戶消費</td></tr>
+        </tbody>
+      </table>
+    </div>
+  `;
   document.getElementById('rulesContent').innerHTML = html;
 }
 
-// ── MANAGE PAGE ──
+// ── 管理頁面功能 ──
 function renderManage(){
   let html = '';
-  DATA.cards.forEach(card=>{
+  DATA.cards.forEach(c => {
     html += `<div class="cm-card">
       <div class="cm-head">
-        <div class="rc-badge ${card.badgeClass}">${card.badgeText}</div>
+        <div class="rc-badge ${c.badgeClass}">${c.badgeText}</div>
         <div class="cm-info">
-          <div class="cm-name">${escHtml(card.name)}</div>
-          <div class="cm-sub">${card.issuer} · ${card.rewardType}</div>
+          <div class="cm-name">${c.name}</div>
+          <div class="cm-sub">${c.issuer}</div>
         </div>
-        <button class="cm-toggle ${card.enabled?'on':'off'}" onclick="toggleCard('${card.id}')">
-          ${card.enabled?'啟用中':'已停用'}
-        </button>
+        <button class="cm-toggle ${c.enabled?'on':'off'}" onclick="toggleCard('${c.id}')">${c.enabled?'使用中':'已停用'}</button>
       </div>
-      ${card.enabled ? `<div class="cm-body">
-        ${card.plans.map(p=>`
-          <div class="cm-plan-row">
-            <div class="cm-plan-name">${p.name}</div>
-            <div class="cm-plan-stores">${p.keywords.slice(0,4).join('・')}</div>
-            <div class="cm-plan-rate">${pct(p.levels[DATA.myLevel].rate)}</div>
-          </div>`).join('')}
-      </div>` : ''}
     </div>`;
   });
   document.getElementById('cardManagerList').innerHTML = html;
 }
 
 function toggleCard(id){
-  const c = DATA.cards.find(c=>c.id===id);
-  if(c) c.enabled = !c.enabled;
-  save();
-  renderManage();
+  let c = DATA.cards.find(x=>x.id===id);
+  if(c){ c.enabled = !c.enabled; renderManage(); if(lastQuery) refreshResults(); }
 }
 
-// ── Data IO ──
 function exportData(){
-  const json = JSON.stringify(DATA, null, 2);
-  document.getElementById('exportArea').value = json;
-  const a = document.createElement('a');
-  a.href = 'data:application/json;charset=utf-8,'+encodeURIComponent(json);
-  a.download = `card-data-${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
+  document.getElementById('exportArea').value = JSON.stringify(DATA, null, 2);
 }
 
-function importData(evt){
-  const file = evt.target.files[0];
+function importData(e){
+  const file = e.target.files[0];
   if(!file) return;
   const reader = new FileReader();
-  reader.onload = e=>{
+  reader.onload = function(evt){
     try{
-      const d = JSON.parse(e.target.result);
-      DATA = d; save();
-      alert('匯入成功！');
-      location.reload();
-    }catch(err){ alert('JSON 格式錯誤：'+err.message); }
+      let parsed = JSON.parse(evt.target.result);
+      if(parsed.cards && parsed.myLevel){
+        DATA = parsed;
+        renderLevelRow();
+        alert('匯入成功！');
+        goPage('q');
+        if(lastQuery) refreshResults();
+      } else { alert('格式不正確，缺少必要欄位'); }
+    }catch(err){ alert('JSON 解析失敗'); }
   };
   reader.readAsText(file);
 }
 
 function resetData(){
-  if(!confirm('確定要重置所有資料嗎？此動作無法復原。')) return;
-  localStorage.removeItem('cardData');
-  location.reload();
+  if(confirm('確定要還原為預設權益資料嗎？')){
+    DATA = JSON.parse(JSON.stringify(FRESH_DATA));
+    renderLevelRow();
+    renderManage();
+    alert('已重置為官方預設值');
+  }
 }
 
-// ── Utils ──
-function pct(r){ return (r*100).toFixed(1).replace(/\.0$/,'')+'%'; }
-function fmt(n){ return Math.round(n).toLocaleString('zh-TW'); }
-function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-// ── Init ──
 renderLevelRow();
-renderAnnounce();
 renderQuickTags();
 </script>
 </body>
