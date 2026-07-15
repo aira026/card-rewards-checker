@@ -262,6 +262,87 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:8px 0 12px}
 
 <script>
 const STORES = {
+  "zhanji": { label: "詹記麻辣火鍋", aliases: ["詹記", "詹記麻辣火鍋"] },
+  "wankeshabu": { label: "萬客什鍋", aliases: ["萬客什鍋", "萬客"] },
+  "haidilao": { label: "海底撈", aliases: ["海底撈"] },
+  "umai": { label: "屋馬燒肉", aliases: ["屋馬", "屋馬燒肉"] },
+  "chaliu": { label: "茶六燒肉堂", aliases: ["茶六", "茶六燒肉堂"] },
+  "sinsuncitybbq": { label: "新村站著吃", aliases: ["新村站著吃", "新村"] },
+  "masamune": { label: "燒肉政宗", aliases: ["燒肉政宗", "政宗"] },
+  "tanzuomali": { label: "碳佐麻里", aliases: ["碳佐麻里"] },
+  "chickensoupuncle": { label: "雞湯大叔", aliases: ["雞湯大叔"] },
+  "gonnaplay": { label: "gonna共樂遊", aliases: ["gonna共樂遊", "gonna", "共樂遊"] },
+  "brun": { label: "BRUN 不然", aliases: ["brun", "brun 不然", "不然"] },
+  "cafeacme": { label: "CAFE ACME", aliases: ["cafe acme", "acme"] },
+  "antipodean": { label: "The Antipodean", aliases: ["the antipodean", "antipodean"] },
+  "secondfloor": { label: "貳樓", aliases: ["貳樓", "second floor"] },
+  "diner": { label: "樂子 the Diner", aliases: ["樂子", "the diner", "樂子 the diner"] },
+  "fakesober": { label: "Fake Sober", aliases: ["fake sober"] },
+  "draftland": { label: "Draft Land", aliases: ["draft land"] },
+  "taihubrewing": { label: "臺虎精釀", aliases: ["臺虎精釀", "台虎精釀", "啜飲室"] },
+  "abv": { label: "ABV系列", aliases: ["abv", "abv系列"] },
+  "bartcrc": { label: "Bar TCRC", aliases: ["bar tcrc", "tcrc"] },
+  "barhome": { label: "Bar Home", aliases: ["bar home"] },
+  "phowa": { label: "Phowa", aliases: ["phowa"] },
+  "moonrock": { label: "MOONROCK", aliases: ["moonrock"] },
+  
+  "dejeng": { label: "得正", aliases: ["得正"] },
+  "bayaotea": { label: "八曜和茶", aliases: ["八曜和茶", "八曜"] },
+  "wudinghao": { label: "五桐號", aliases: ["五桐號"] },
+  "guiji": { label: "龜記", aliases: ["龜記"] },
+  "teamagichand": { label: "茶之魔手", aliases: ["茶之魔手"] },
+  "ugtea": { label: "UG TEA", aliases: ["ug tea", "ugtea"] },
+  "dinggo": { label: "叮哥茶飲", aliases: ["叮哥茶飲", "叮哥"] },
+  "cafein": { label: "CAFE!N", aliases: ["cafe!n", "cafein"] },
+  "arabica": { label: "%Arabica", aliases: ["%arabica", "arabica"] },
+  "composecoffee": { label: "COMPOSE COFFEE", aliases: ["compose coffee"] },
+  
+  "inparadise": { label: "饗饗 INPARADISE", aliases: ["饗饗", "inparadise", "饗饗 inparadise"] },
+  "nagomi": { label: "NAGOMI", aliases: ["nagomi"] },
+  
+  "weverse": { label: "WEVERSE", aliases: ["weverse"] },
+  "kmonstar": { label: "K-MONSTAR", aliases: ["k-monstar", "kmonstar"] },
+  "vlogker": { label: "微樂客", aliases: ["微樂客"] },
+  "fivemusic": { label: "五大唱片", aliases: ["五大唱片"] },
+  "fairytree": { label: "仙女樹", aliases: ["仙女樹"] },
+  "fanme": { label: "FANME", aliases: ["fanme"] },
+  "nol": { label: "NOL", aliases: ["nol"] },
+  
+  "bahamut": { label: "巴哈姆特", aliases: ["巴哈姆特", "bahamut"] },
+  "bookwalker": { label: "BOOK WALKER", aliases: ["book walker", "bookwalker"] },
+  "animate": { label: "Animate", aliases: ["animate"] },
+  "rakutenkobo": { label: "樂天KOBO", aliases: ["樂天kobo", "kobo", "rakuten kobo"] },
+  "readmoo": { label: "Readmoo讀墨", aliases: ["readmoo", "讀墨"] },
+  "elta": { label: "愛爾達", aliases: ["愛爾達", "elta"] },
+  
+  "appledirect": { label: "Apple 直營", aliases: ["apple 直營", "apple 官網", "apple store", "apple"] },
+  "studioa": { label: "Studio A", aliases: ["studio a", "studioa"] },
+  "dji": { label: "DJI", aliases: ["dji"] },
+  "insta360": { label: "Insta360", aliases: ["insta360"] },
+  "gopro": { label: "GoPro", aliases: ["gopro"] },
+  
+  "goodmed": { label: "好好生醫", aliases: ["好好生醫"] },
+  "careabout": { label: "好在乎", aliases: ["好在乎"] },
+  "dietitianlightfood": { label: "營養師輕食", aliases: ["營養師輕食"] },
+  "vitabox": { label: "VITABOX", aliases: ["vitabox"] },
+  "urmart": { label: "UrMart優馬選品", aliases: ["urmart", "優馬選品", "urmart優馬選品"] },
+  
+  "anytimefitness": { label: "Anytime Fitness", aliases: ["anytime fitness", "anytime"] },
+  "fitnessfactory": { label: "健身工廠", aliases: ["健身工廠"] },
+  "worldgym": { label: "World Gym", aliases: ["world gym", "worldgym"] },
+  "hypercore": { label: "超核心 Hypercore", aliases: ["超核心", "hypercore"] },
+  "kxpilates": { label: "KX PILATES", aliases: ["kx pilates", "kxpilates"] },
+  "huti": { label: "虎鐵健身 X 器械皮拉提斯", aliases: ["虎鐵健身", "虎鐵健身 x 器械皮拉提斯", "虎鐵"] },
+  "fit17": { label: "17FIT", aliases: ["17fit"] },
+  
+  "adidas": { label: "Adidas", aliases: ["adidas"] },
+  "newbalance": { label: "New Balance", aliases: ["new balance", "newbalance"] },
+  "puma": { label: "PUMA", aliases: ["puma"] },
+  "onitsuka": { label: "Onitsuka Tiger", aliases: ["onitsuka tiger", "鬼塚虎"] },
+  "nike": { label: "Nike", aliases: ["nike"] },
+  "hoka": { label: "HOKA", aliases: ["hoka"] },
+  "salomon": { label: "Salomon", aliases: ["salomon"] },
+  "lululemon": { label: "lululemon", aliases: ["lululemon"] },
   "seven":       { label:"7-Eleven",      aliases:["7-11","711","seven","小七","統一超商","7eleven","7 eleven"] },
   "familymart":  { label:"全家",           aliases:["全家","family mart","familymart","全家超商","全家便利"] },
   "hilife":      { label:"萊爾富",         aliases:["萊爾富","hilife","hi-life","萊爾富超商"] },
@@ -452,6 +533,106 @@ const DEFAULT_DATA = {
         "3": "同 Lv.2（台新無 Lv.3）"
       },
       plans: [
+
+        {
+  id: 'party-drunk',
+  name: 'Chill刷｜歡聚微醺',
+  desc: '2026/7/8-2026/9/30 10%',
+  storeIds: ['zhanji','wankeshabu','haidilao','umai','chaliu','sinsuncitybbq','masamune','tanzuomali','chickensoupuncle','gonnaplay','brun','cafeacme','antipodean','secondfloor','diner','fakesober','draftland','taihubrewing','abv','bartcrc','barhome','phowa','moonrock'],
+  levels: {
+    1: { rate: 0.10, note: 'Chill刷 10%' },
+    2: { rate: 0.10, note: 'Chill刷 10%' },
+    3: { rate: 0.10, note: 'Chill刷 10%' }
+  }
+},
+{
+  id: 'party-daily',
+  name: 'Chill刷｜日常續命',
+  desc: '2026/7/8-2026/9/30 10%',
+  storeIds: ['50lan','dejeng','bayaotea','wudinghao','guiji','teamagichand','ugtea','dinggo','cafein','arabica','composecoffee'],
+  levels: {
+    1: { rate: 0.10, note: 'Chill刷 10%' },
+    2: { rate: 0.10, note: 'Chill刷 10%' },
+    3: { rate: 0.10, note: 'Chill刷 10%' }
+  }
+},
+{
+  id: 'party-date',
+  name: 'Chill刷｜約會犒賞',
+  desc: '2026/7/8-2026/9/30 5%',
+  storeIds: ['inparadise','nagomi'],
+  levels: {
+    1: { rate: 0.05, note: 'Chill刷 5%' },
+    2: { rate: 0.05, note: 'Chill刷 5%' },
+    3: { rate: 0.05, note: 'Chill刷 5%' }
+  }
+},
+{
+  id: 'ent-kpop',
+  name: '沉浸娛樂｜應援追星',
+  desc: '2026/7/8-2026/9/30 5%',
+  storeIds: ['weverse','kmonstar','vlogker','fivemusic','fairytree','fanme','nol'],
+  levels: {
+    1: { rate: 0.05, note: 'Chill刷 5%' },
+    2: { rate: 0.05, note: 'Chill刷 5%' },
+    3: { rate: 0.05, note: 'Chill刷 5%' }
+  }
+},
+{
+  id: 'ent-binge',
+  name: '沉浸娛樂｜熬夜追更',
+  desc: '2026/7/8-2026/9/30 5%',
+  storeIds: ['bahamut','bookwalker','animate','rakutenkobo','readmoo','netflix','disney','elta'],
+  levels: {
+    1: { rate: 0.05, note: 'Chill刷 5%' },
+    2: { rate: 0.05, note: 'Chill刷 5%' },
+    3: { rate: 0.05, note: 'Chill刷 5%' }
+  }
+},
+{
+  id: 'ent-digital',
+  name: '沉浸娛樂｜數位外掛',
+  desc: '2026/7/8-2026/9/30 3.3%',
+  storeIds: ['appledirect','studioa','dji','insta360','gopro','shopee','taobao','coupang','ubereats'],
+  levels: {
+    1: { rate: 0.033, note: 'Chill刷 3.3%' },
+    2: { rate: 0.033, note: 'Chill刷 3.3%' },
+    3: { rate: 0.033, note: 'Chill刷 3.3%' }
+  }
+},
+{
+  id: 'solo-nutrition',
+  name: '獨自升級｜營養補給',
+  desc: '2026/7/8-2026/9/30 5%',
+  storeIds: ['goodmed','careabout','dietitianlightfood','vitabox','myprotein','urmart'],
+  levels: {
+    1: { rate: 0.05, note: 'Chill刷 5%' },
+    2: { rate: 0.05, note: 'Chill刷 5%' },
+    3: { rate: 0.05, note: 'Chill刷 5%' }
+  }
+},
+{
+  id: 'solo-fitness',
+  name: '獨自升級｜體態養成',
+  desc: '2026/7/8-2026/9/30 5%',
+  storeIds: ['anytimefitness','fitnessfactory','worldgym','hypercore','kxpilates','huti','fit17'],
+  levels: {
+    1: { rate: 0.05, note: 'Chill刷 5%' },
+    2: { rate: 0.05, note: 'Chill刷 5%' },
+    3: { rate: 0.05, note: 'Chill刷 5%' }
+  }
+},
+{
+  id: 'solo-sportbrand',
+  name: '獨自升級｜運動品牌',
+  desc: '2026/7/8-2026/9/30 5%',
+  storeIds: ['adidas','newbalance','puma','onitsuka','nike','hoka','salomon','lululemon'],
+  levels: {
+    1: { rate: 0.05, note: 'Chill刷 5%' },
+    2: { rate: 0.05, note: 'Chill刷 5%' },
+    3: { rate: 0.05, note: 'Chill刷 5%' }
+  }
+},
         {
           id:"pay", name:"Pay著刷", desc:"台新Pay 3.8% ／ LINE Pay 2.3% ／ 台灣Pay 3.8%",
           storeIds:["pay_ts","pay_line","pay_tw","pay_px","pay_fami"],
